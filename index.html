@@ -46,11 +46,15 @@ h2,h3{font-family:var(--display);font-weight:700;letter-spacing:.04em;margin:0;t
 .bar i{display:block;height:100%;border-radius:3px;transition:width .25s}
 .rt.pv .v{color:var(--pv)} .rt.pv i{background:var(--pv)}
 .rt.pm .v{color:var(--pm)} .rt.pm i{background:var(--pm)}
-.rt.pi .v{color:var(--pi)} .rt.pi i{background:var(--pi)}
+.rt.pi{flex:0 0 auto;min-width:78px}.rt.pi .v{color:var(--pi)} .rt.pi i{background:var(--pi)}
 .rt.crisis{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad) inset}
 .rt.crisis .k::after{content:"CRISE";color:var(--bad);font-weight:700}
 .rt.ko .k::after{content:"CAÍDA"}
 .side{display:flex;gap:8px;align-items:stretch}
+.pfbox{display:flex;gap:4px;align-items:stretch}
+.pft{min-width:64px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:6px 10px;border-radius:10px;border:2px solid var(--brass);background:linear-gradient(180deg,rgba(212,168,67,.22),rgba(212,168,67,.06));box-shadow:0 0 12px rgba(212,168,67,.28)}
+.pft .k{font-size:11px;letter-spacing:.14em;color:var(--brass2);font-weight:700}.pft .v{font-size:30px;font-weight:700;color:var(--brass2);line-height:1.05;font-family:var(--display)}
+.piq.pfq button{color:var(--brass2);border-color:var(--brass)}.piq.pfq button:active:not(:disabled){background:var(--brass);color:#1a1408}
 .pf{display:flex;align-items:center;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px 6px}
 .pf .k{font-size:11px;letter-spacing:.1em;color:var(--muted);text-align:center}
 .pf .v{font-size:22px;font-weight:700;color:var(--brass2);min-width:28px;text-align:center}
@@ -207,6 +211,8 @@ summary{cursor:pointer;color:var(--muted);min-height:32px;display:flex;align-ite
 .ses .tag{white-space:nowrap;flex:none}.ses .sbody{padding:0 14px 14px}
 .diary .f.date{max-width:170px}
 
+.condmag{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:flex-start}.condcol{flex:0 0 370px;max-width:100%}.magcol{flex:1 1 200px;min-width:200px}.magbtn{width:100%;min-height:48px;font-size:16px}.magsel{display:grid;grid-template-columns:1fr;gap:8px}.magcol .out{margin-top:8px}.magcol .out .cost{font-size:22px}
+.npv{color:var(--brass2);font-weight:600}.npv b{color:var(--text)}.npbox{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.npchip{font-size:13px;padding:4px 10px}.npchip b{color:var(--brass2)}
 .bld{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
 .out{margin-top:10px;background:#0f1628;border:1px solid var(--brass);border-radius:10px;padding:12px}
 .out .cost{font-family:var(--display);font-size:24px;color:var(--pm)}
@@ -243,6 +249,7 @@ table.t td{padding:3px 4px;border-top:1px solid var(--line)}
 .fdice{display:grid;grid-template-columns:repeat(4,minmax(92px,1fr));gap:6px;flex:2 1 440px}
 .fixbar .at{padding:4px 6px}.fixbar .at .nm{font-size:10px}.fixbar .at .die{font-size:26px;min-width:38px}.fixbar .dbtn{width:30px;height:30px;font-size:17px}.fixbar .dierow{gap:4px}
 .confbar{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}.confbar .btn{flex:1 1 160px;min-height:46px;font-size:15px}
+.tompick{display:flex;flex-direction:column;gap:8px}.tombtn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;cursor:pointer;margin:0;width:100%;color:var(--text);font:inherit}.tombtn b{color:var(--brass2);font-size:16px}.tombtn span{color:var(--muted);font-size:13px}.tombtn:hover,.tombtn:active{border-color:var(--brass)}
 .mbox h3{margin:14px 0 6px;font-size:13px;letter-spacing:.06em;color:var(--brass2)}
 .mbox h2{font-size:17px;color:var(--brass2);margin-bottom:10px}
 .resform{display:grid;gap:10px;margin:12px 0}.rf{display:grid;grid-template-columns:78px 1fr auto;gap:8px;align-items:center}.rf span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.rf input{min-height:46px;font-size:20px;text-align:center}.rf .btn{min-height:46px;min-width:96px}
@@ -388,7 +395,7 @@ function tokKey(nome){const n=String(nome||'').toLowerCase().normalize('NFD').re
 function simImg(x){const v=x.img||('tok:'+tokKey(x.nome));return v.startsWith('tok:')?(TOKENS[v.slice(4)]||''):v}
 const simPic=(x,sz)=>{const u=simImg(x);return u?`<img class="tok" src="${u}" alt="" width="${sz}" height="${sz}">`:`<span class="tok none" style="width:${sz}px;height:${sz}px"></span>`};
 const SESSOES_SEED=[{"data": "2026-06-06", "titulo": "Mizuno e o Circo Karmesin", "resumo": "Na taverna Unicórnio Brisadinho, em Mizuno, o grupo aceita a missão da guilda (1.200z) de libertar um cobrador de impostos capturado; o destino é Blohouson. Cid analisa a arma da Lyra: tecnologia desconhecida e peça incompleta de um conjunto, talvez vinda de um reino mágico. Luna descobre que algo estava sendo invocado na dungeon. O prefeito Rudolph conta que moradores sumiram. O circo Karmesin aparece: Lyra ganha o prêmio máximo no tiro ao alvo, o grupo recebe uma moeda mágica da trupe vermelha. Numa cena à parte, Grim e uma figura de máscara de praga falam em cumprir o contrato e coletar almas. Lance revela que fez parte do Chronos, que faz experimentos em pessoas. Próximo destino: Klifone.", "texto": "1) Nos encotramos na vila de Mizuno, em uma taverna(Unicórnio Brisadinho) onde pegamos a missão guilda, onde um cobrador de impostos foi capturado e alguns outros grupos tentaram e não sucederam. A recompensa é de 1200z e a missão é a mais recomendada para ganhar influencia na guilda.\nA Cidade Blohouson é o nosso destino\n\n2) Eu entrego a arma Cid para analise da arma, ele me diz que arma de uma tecnologia diferente que ele conhece, e ela faz parte de um conjunto e está incompleta atualmente. Possivelmente veio de um reinos magias.\n\nLuna fez um ritual de entropia para tentar entender a origem mágica da arma,  e não consegue descobrir nada de informação além de que a arma é desse mundo.\n\n3) Chegamos na dungeon e após perfomar uma investigação Luna descobre que algo estava sendo iinvocado na masmorra\n\n4)Chegando na vila, vamos até o prefeito rudolph, e CID vende os materias adquiridos após os espólios da batalha. Alguns moradores foram até  lá e não voltaram.\n\n5) A medida que nos aproximamos da dungeon o circo Karmesin se materializa no lugar. Eu participo de um jogo de tiro alvo, onde eu ganho o premio maximo após acertar todos os disparos eu ganho ingresso para todos.\n\nMuitos do humanos do circo tem chifres, o que é curioso, o atirador me convida ao palco e acerto todos os alvos.\n\nCid performa acrobacias\n\nLuna tenta ler a sorte de Grim ( o mestre de cerimonia ) e não vai tao bem\n\nLance se transforma e aniquila uma lagarta.\n\nRecebemos uma moeda de premio, que contem simbolos magicos, ela se identifica como parte da trupe vermelha.\n\n6) Grim conta que a com a moeda de ouro, podemos ter sorte.\n\n7) Entramos no circo, a cena corta para um vilao, onde grim conversa com uma figura que porta uma mascara de praga. Ele diz que eles devem cumprir o contrato e coletar as almas. Mestre do circo o vilao.\n\n8) Lance diz que fez parte de um grupo chamado de Chronos, que atua como pesquisadores em Calli, e fazem experimentos em pessoas.\n\n9) Vamos para Kliforn uma cidade ao sudeste de onde estamos."}, {"data": "2026-06-28", "titulo": "Viagem a Klifone", "resumo": "Viagem tranquila, exceto por saqueadores no segundo dia (2 congelados, 2 mortos, 1.000z de espólio). Em Klifone, Elisa, da guilda GGG, pede detalhes do ocorrido. O circo foi visto perto de Zenafar, e um grupo terrorista aproveita a explosão para manipular o rio das almas; aventureiros reencarnam de tempos antigos. O diretor de operações recruta o grupo, e Minerva von Derlt, entropista, espera na torre Belgoze. A rota tem monstros do mar, saqueadores, fragmentos elementais e aves.", "texto": "O Primeiro dia de viagem é muito tranquilo. No segundo dia somos abordados por saqueadores?  Vencemos a batalha congelando 2 inimigos e matando 2 deles, e encotramos 1000z.\n\nTerceiro dia de viagem é tranquilo e avistamos Klifone ao longe, e chegamos no 4 dia na cidade\n\nVamos até a  cede da GGG na cidade, uma taverna muito maior do que a primeira que encontramos, Elisa uma elfa da guilda nos recebe e pede mais informações sobre o que aconteceu lá.\n\nA cidade tem um belo porto\n\nApós a queda da Galbadia o movimento da cidade diminiui\n\nNa região de Zenafar o circo foi avistado a um dia após ele ter saído da pequena da vila\n\nO diretor de operações da região elenca nós para ajudar, um grupo terrorista está utilizando a oportunidade causada pela explosão para maniupular o rio das almas\n\nAlguns aventureiros estão reencarnado de tempos antigos.\n\nA entropista (Minerva von Derlt) se encontra na torre Belgoze e é um local com bastante informação.\n\nA rota apresenta vários monstros do mar\n\nPeixes espinho\n\nHidrosoarios\n\nSaqueadores\n\nFragmentos elementais de gelo ou vento\n\nAves"}, {"data": "2026-08-01", "titulo": "Torre de Belgoze e o livro de PAC", "resumo": "A guarda procura Lance por causa do experimento que o permite virar outro. Na torre de Belgoze, Minerva já esperava o grupo, e a resistência à manipulação do rio das almas está diminuindo. No hall há uma tábua de quatro círculos (estações, elementos, raças e constelações). Usando a arma como foco, Lyra obtém o conhecimento do livro de PAC, o herói: como construir um cubo de teletransporte. O volume I de XII foi achado no andar do vento. Surge um caixão tecnológico com batida de coração, diante de um grupo de aventureiros. O anão destrói as evidências, e Luna revela ser uma retornada.", "texto": "A guarda está procurando o Lance, devido ao que parece ser o experimento que foi realizado nele que o deixou capaz de virar outro.\n\nChegamos até a torre de Belgoze, em 3-4 dias, é uma pequena ilha com uma torre.\n\nMinerva nos recebe e diz que estava nos esperando´\n\nSensação de que algo mágico está ativo nesse local\n\nVárias pessoa já tentaram manipular o rio das almas, mas ninguém nunca conseguiu utilizar ele de maneira efetiva, a resistência de manipulação ao rio das almas está diminuido.\n\nAo entrar no grande hall vemos um grande tábua com 4 círculos onde cada um represtanta:\n\n4 estações\n\n6 elemesntos todos menos relampago\n\n8 espaços, figuras de diferente de raças\n\n12 constalações zodiacos\n\nAo utilizar a arma como foco eu consigo o conhecimento do livro, PAC o grande o herói. Dela caí a informação de como construiu um cubo de teletransporte. O volume I foi encontrando no andar do vento.\n\nO livro I de XII das históras de PAC é o inicio da jornada. Ele possui 12 cap cada um dividido em 4. Algumas páginas contem pequenos simbolos que representam os elementos.\n\nConta a históia de um aventureiro, que saiu da vila para tentar salvar a familia dele da fome\n\nO Livro é uma homenagem há\n\nKthei o ORC\n\nJhoira a elfa\n\nDhunter o anão\n\nO autor do livro está apagado e ele foi publicado num periodo muito antigo. Essa série de livros é utilizado para enfrentar o grande mal.\n\nUma camâra sobe do chão onde vemos um caixão tecnológico nesse caixão com uma batida de coração. Um grupo de aventureiros em frente ao caixão que remente aos aventureiros do livros. O anão destrói todas as evidencias de que essa historia não repita.\n\nLuna abre o jogo e diz que é uma retornada admitindo que por isso foi capaz de invocar o livro."}, {"data": "2026-09-26", "titulo": "Visões e a volta ao circo", "resumo": "Lance fica abalado e Lyra se reserva, lendo o livro de PAC, que muda quando exposto aos elementos. O circo usa o rio das almas para canalizar energia. No andar da luz surge uma orbe na mão de Lance, e Luna projeta uma visão de uma vila rural de roupas brancas, ligada a Winhill, depois vivida em primeira pessoa com uma xamã de outra era. Ao tocarem a orbe e pensarem no circo, todos vão parar no circo Karmesin e decidem sabotar o espetáculo, feito para Luna, numa atmosfera sombria.", "texto": "Saímos dos andares da biblioteca, Lance esta visivelmente afetado do que aconteceu com ele, mas eu acabo muito curioso com a história de PAC e fico mais reservado lendo o livro.\n\nO Circo karmesin esta usando o rio das almas para canalizar energia para algo. Não sabemos o que está acontecendo.\n\nO Livro muda quanto exposto ao elemento e apresenta anotações diferentes das que estão escritas nas páginas. Todos os elementos estão representados, seria necessário algum item que fosse capaz de emular cada elemento para fazer essa leitura.\n\nCid tenta entender á tabua e eu auxilio ele e falhamos, vamos até o andar da luz e uma orbe se materializa na mão Lance. Luna ao segurar a orbe faz com que uma imagem se projete na sala como um todo.\n\nA cena se passa numa vila rural onde crianças brincam, adultos se aproximam usando roupas brancas. O local parece ter uma natureza muito fora do que é normal.\n\nCid diz que as pessoas estão se vestindo como pessoas de “Winhil”, Luna reage a informação e o ambiente todo treme.\n\nA Cena muda e vivenciamos ela como se fosse em primeira pessoa, não conseguimos mais perceber uns aos outros.\n\nUma xamã de outra era, não conseguimos entender o que é perguntado\n\nNão entendo o que aconteceu nesse cena.\n\nAo todos tocarmos e pensarmos no circo, acabamos todos acabando no circo karmesin,  decidimos que vamos tentar não fazer o espetáculo dar certo.\n\nAo observar notamos uma pessoa com vestimenta de soldados, além disso outro grupo de aventureiros se encontram na mesma situação que nós.\n\nO circo está com uma atmosfera mais sombria, o espetáculo é feito especialmente para Luna. OH NO!"}, {"data": "2026-08-17", "titulo": "O ritual do condutor", "resumo": "O grupo se reagrupa e se recupera. Minerva os encontra por uma linha de magia de origem desconhecida. O condutor vê Luna como um exímio receptáculo, e sua máscara cai: é alguém de Winhill. Grim sai levando Divini e a alma de uma criança. O condutor usa uma espécie de pedra filosofal para trazer de volta uma divindade de Winhill, que fica instável e incompleta pela pressa. O grupo completa o ritual, escapa com Minerva e volta à torre. Sem anotações sobre a árvore da vida.", "texto": "Nós no reagrupamos  e usamos vários recursos para nos recuperar\n\nMinerva veio até nós através de uma linha de magia que possibilitou ela nos encontrar, não sabemos o que ou quem gerou essa possibilidade\n\nLuna é considerada um exímio receptáculo pelo condutor\n\nA Máscara do condutor caí e vemos uma pessoa que parece ter vindo da região de winhill\n\nGrim saí de cena, levando Divini e alma de uma criança que ela havia oferecido.\n\nO condutor usa uma éspecida de uma pedra filosofal, para trazer um divindade de Winhill de volta, devido a pressa com que foi realizado ele ficou instavél e incompleto.\n\nCompletamos o ritual e acabamos escapando com a Minerva, voltamos até a torre.\n\nNão anotei nada sobre a árvore da vida"}];
-const APP_VERSION='1.13.1',APP_BUILD='10/11/2026';
+const APP_VERSION='1.17.6',APP_BUILD='10/11/2026';
 const SIMBOLISMO_DESC='Sempre que adquirir este poder, aprenda dois símbolos (pp. 144-147).\nVocê pode ter até (NP + 1) símbolos ativos ao mesmo tempo; se criar mais símbolos além desse limite, antes deve escolher um de seus símbolos ativos para destruir.\nVocê pode fazer a ação Inventário e gastar 2 PI para criar um dos símbolos que aprendeu e escolher um: aplicar esse símbolo em si mesmo; ou aplicar esse símbolo num aliado que você consegue ver; ou fazer um ataque livre usando uma arma equipada. Esse ataque não causa dano, mas você aplica uma cópia do símbolo escolhido a cada inimigo que atingir (cada cópia conta como um símbolo individual para seu limite de (NP + 1) símbolos ativos).';
 function migrate(s){
   const v0=s.v||1;
@@ -568,7 +575,7 @@ function setP(path,val){const ks=path.split('.');let o=S;for(let i=0;i<ks.length
 const A_=(s)=>' '+s;
 function inp(path,o={}){
   const t=o.num?'num':'txt'; const v=getP(path);
-  return `<input class="f ${o.cls||''}" data-b="${path}" data-t="${t}" type="${o.num?'number':'text'}" ${o.num?'inputmode="decimal" step="any"':''} value="${esc(v)}" placeholder="${esc(o.ph||'')}" aria-label="${esc(o.al||o.ph||path)}">`;
+  return `<input class="f ${o.cls||''}" data-b="${path}" data-t="${t}" ${o.list?`list="${o.list}"`:''} type="${o.num?'number':'text'}" ${o.num?'inputmode="decimal" step="any"':''} value="${esc(v)}" placeholder="${esc(o.ph||'')}" aria-label="${esc(o.al||o.ph||path)}">`;
 }
 function ta(path,o={}){return `<textarea class="f ${o.cls||''}" data-b="${path}" data-t="txt" rows="${o.rows||2}" placeholder="${esc(o.ph||'')}" aria-label="${esc(o.al||o.ph||path)}">${esc(getP(path))}</textarea>`}
 function tgl(path,label,rerender){return `<label class="tgl"><input type="checkbox" data-b="${path}" data-t="bool" ${rerender?'data-r="1"':''} ${getP(path)?'checked':''}><span>${label}</span></label>`}
@@ -580,13 +587,13 @@ function renderHeader(){
   const d=derive();
   const tile=(k,n,cur,max)=>{
     const crisis=k==='pv'&&cur<=d.crise, ko=k==='pv'&&cur<=0;
-    return `<button class="rt ${k} ${crisis?'crisis':''} ${ko?'ko':''}" data-act="res" data-r="${k}" aria-label="Ajustar ${n}"><div class="k"><span>${n}</span></div><div class="v num">${cur}<small> / ${max}</small></div><div class="bar"><i style="width:${max?clamp(cur/max*100,0,100):0}%"></i></div></button>`;
+    return `<button class="rt ${k} ${crisis?'crisis':''} ${ko?'ko':''}" data-act="res" data-r="${k}" aria-label="Ajustar ${n}"><div class="k"><span>${n}</span></div><div class="v num">${cur}<small> / ${max}</small></div>${k==='pi'?'':`<div class="bar"><i style="width:${max?clamp(cur/max*100,0,100):0}%"></i></div>`}</button>`;
   };
   $('#top').innerHTML=`
     <div class="who"><img src="${esc(S.retrato||PORTRAIT)}" alt=""><div><b>${esc(S.nome||'Sem nome')} <span class="ver" title="Versão do app (${APP_BUILD})">v${APP_VERSION}</span></b><small></small></div></div>
     <div class="res">${tile('pv','PV',d.pv,d.pvMax)}<div class="piq pv"><button data-act="pvq" data-d="1" aria-label="Curar 1 PV" ${d.pv>=d.pvMax?'disabled':''}>+</button><button data-act="pvq" data-d="-1" aria-label="Sofrer 1 de dano" ${d.pv<=0?'disabled':''}>−</button></div>${tile('pm','PM',d.pm,d.pmMax)}<div class="piq pm"><button data-act="pmq" data-d="10" aria-label="Recuperar 10 PM" ${d.pm>=d.pmMax?'disabled':''}>+10</button><button data-act="pmq" data-d="-10" aria-label="Gastar 10 PM" ${d.pm<10?'disabled':''}>−10</button></div>${tile('pi','PI',d.pi,d.piMax)}<div class="piq"><button data-act="piq" data-d="1" aria-label="Recuperar 1 PI" ${d.pi>=d.piMax?'disabled':''}>+</button><button data-act="piq" data-d="-1" aria-label="Gastar 1 PI" ${d.pi<=0?'disabled':''}>−</button></div></div>
     <div class="side">
-      <div class="pf"><button class="btn ico ghost" data-act="pf" data-d="-1" aria-label="Gastar Ponto de Fabula">−</button><div><div class="k">PF</div><div class="v num">${num(S.pf)}</div></div><button class="btn ico ghost" data-act="pf" data-d="1" aria-label="Ganhar Ponto de Fabula">+</button></div>
+      <div class="pfbox"><div class="pft" title="Pontos de Fábula"><div class="k">PF</div><div class="v num">${num(S.pf)}</div></div><div class="piq pfq"><button data-act="pf" data-d="1" aria-label="Ganhar Ponto de Fabula">+</button><button data-act="pf" data-d="-1" aria-label="Gastar Ponto de Fabula" ${num(S.pf)<=0?'disabled':''}>−</button></div></div>
       <button class="zen" data-act="res" data-r="zen" aria-label="Ajustar zênites"><div class="k">ZÊNITES</div><div class="v num">${fmt(num(S.zenites))}</div></button>
       <button class="btn ico" data-act="menu" aria-label="Menu"><span id="syncdot" class="${dotCls()}" title="${esc(syncLabel())}"></span></button>
     </div>`;
@@ -620,10 +627,11 @@ function tabFicha(){
   }).join('');
   const classes=S.classes.map((c,i)=>{
     const sum=c.poderes.reduce((a,p)=>a+num(p.np),0);
-    const pw=c.poderes.map((p,j)=>`<div class="pwr">${inp(`classes.${i}.poderes.${j}.nome`,{cls:'name',ph:'Poder'})}<span class="lbl">NP</span>${stepper(`classes.${i}.poderes.${j}.np`,0,num(p.max)||20)}<span class="lbl">máx</span>${inp(`classes.${i}.poderes.${j}.max`,{num:1,cls:'n sm',al:'NP máximo'})}<button class="btn ico sm bad" data-act="del" data-l="classes.${i}.poderes" data-i="${j}" aria-label="Remover poder">×</button></div>`).join('');
+    const pw=c.poderes.map((p,j)=>`<div class="pwr">${inp(`classes.${i}.poderes.${j}.nome`,{cls:'name',ph:'Poder',list:`cat-${i}`})}<span class="lbl">NP</span>${stepper(`classes.${i}.poderes.${j}.np`,0,num(p.max)||20)}<span class="lbl">máx</span>${inp(`classes.${i}.poderes.${j}.max`,{num:1,cls:'n sm',al:'NP máximo'})}<button class="btn ico sm bad" data-act="del" data-l="classes.${i}.poderes" data-i="${j}" aria-label="Remover poder">×</button>${normK(p.nome)==='simbolismo'?pendTag(pendSimbolos(),'símbolo(s)'):normK(p.nome)==='magicanto'?pendTag(pendMagicanto(),'escolha(s)'):''}</div>`).join('');
     return `<div class="cls"><div class="nameRow">${inp(`classes.${i}.nome`,{cls:'grow',ph:'Classe'})}<span class="lbl">Nível</span>${stepper(`classes.${i}.nivel`,0,10)}<button class="btn ico sm bad" data-act="del" data-l="classes" data-i="${i}" aria-label="Remover classe">×</button></div>
       <div style="margin-top:8px">${ta(`classes.${i}.ben`,{ph:'Benefícios gratuitos',cls:'sm'})}</div>
       <div class="cbon">${lab('Bônus de PV',inp(`classes.${i}.bpv`,{num:1,cls:'n'}))}${lab('Bônus de PM',inp(`classes.${i}.bpm`,{num:1,cls:'n'}))}${lab('Bônus de PI',inp(`classes.${i}.bpi`,{num:1,cls:'n'}))}</div>
+      <datalist id="cat-${i}">${(CATALOGO[normK(c.nome)]||[]).filter(e=>!c.poderes.some(p=>normK(p.nome)===normK(e.nome))).map(e=>`<option value="${esc(e.nome)}"></option>`).join('')}</datalist>
       <div class="pw">${pw}<div class="row"><button class="btn sm" data-act="add" data-l="classes.${i}.poderes">+ Poder</button><span class="tag ${sum===num(c.nivel)?'ok':'warn'}">NP somado ${sum} / nível ${num(c.nivel)}</span></div></div></div>`;
   }).join('');
   return `<div class="grid">
@@ -743,6 +751,13 @@ function substScale(text,esc_){
   if(!esc_) return text;
   return text.replace(/\(?\brecupera[çc][ãa]o da escala\)?/gi,esc_.rec).replace(/\(?\btipo da escala\)?/gi,esc_.tipo).replace(/\(?\batributo da escala\)?/gi,esc_.attr).replace(/\bcondição da escala\b/gi,esc_.cond);
 }
+function tomCalc(tom,esc){
+  const m=/(?:(\d+)\s*\+\s*)?o dobro de seu dado (?:atual )?de Vontade/i.exec(tom.desc||'');
+  if(!m) return '';
+  const lv=num(S.nivel),b=lv>=40?20:lv>=20?10:0,die=derive().dice.von,fixo=num(m[1]),base=fixo+2*die,tot=base+b;
+  const un=/recupera/i.test(tom.desc)?esc.rec:/dano/i.test(tom.desc)?'de dano '+esc.tipo:'';
+  return `<p class="npv">Cálculo: ${fixo?fixo+' + ':''}2 × d${die} (${2*die})${b?' + '+b+' (nível '+lv+')':''} = <b>${tot}</b> ${esc_(un)}</p>`;
+}
 function magicOut(){
   const m=S.mc,tom=m.tons[m.sel.tom],vol=m.volumes[m.sel.vol],esc=m.escalas[m.sel.esc];
   if(!tom||!tom.nome||!vol||!esc) return '<p class="empty">Escolha tom, volume e escala.</p>';
@@ -750,12 +765,47 @@ function magicOut(){
   return `<div class="out"><div class="row" style="justify-content:space-between"><div><span class="lbl">Custo</span><div class="cost num">${num(vol.custo)} PM</div></div><button class="btn pri" data-act="cast">Cantar</button></div>
     <p><b class="k">Alvos:</b> ${esc_(vol.alvos)}</p>
     <p><b class="k">Escala ${esc_(esc.nome)}:</b> ${esc_(esc.tipo)}, condição ${esc_(esc.cond)}, atributo ${esc_(esc.attr)}, recuperação ${esc_(esc.rec)}</p>
-    <p><b class="k">${esc_(tom.nome)}:</b> ${esc_(substScale(tom.desc,esc))}</p>
+    <p><b class="k">${esc_(tom.nome)}:</b> ${esc_(substScale(tom.desc,esc))}</p>${tomCalc(tom,esc)}
     <p class="note">Bônus de nível aplicado aos tons: +${bonus}. Duração: ${esc_(tom.duracao||'até o fim do turno')}</p></div>`;
 }
+function simModalHtml(){const d=derive();return `<div id="simmodal"><div class="mtop"><h2>Controle de símbolos</h2><span class="tag">PI ${d.pi} / ${d.piMax}</span><button class="btn sm" data-act="closeSim">Fechar</button></div>${simControleHtml()}</div>`}
+function simIdx(){return S.classes.findIndex(c=>normK(c.nome)==='simbolista')}
+function magicoConflito(){
+  const mg=npDe('Magicanto')>0,sm=simIdx()>=0;
+  if(!mg&&!sm) return '';
+  return `<div class="magcol">${mg?`<button class="btn pri magbtn" data-act="magModal">Magicanto</button><p class="note" style="margin:6px 0 0">Monte e cante um verso: tom, volume e escala.</p>`:''}${sm?`<button class="btn pri magbtn" style="margin-top:${mg?12:0}px" data-act="goSim">Controle de símbolos</button><p class="note" style="margin:6px 0 0">Criar e destruir símbolos em jogo.</p>`:''}</div>`;
+}
+function magModalHtml(){
+  const m=S.mc;
+  if(m.sel.tom>=m.tons.length)m.sel.tom=Math.max(0,m.tons.length-1);
+  const tonOpts=m.tons.map((t,i)=>t.nome?`<option value="${i}" ${m.sel.tom===i?'selected':''}>${esc(t.nome)}</option>`:'').join('');
+  const volOpts=m.volumes.map((v,i)=>`<option value="${i}" ${m.sel.vol===i?'selected':''}>${esc(v.nome)} (${num(v.custo)} PM)</option>`).join('');
+  const escOpts=m.escalas.map((e,i)=>e.on?`<option value="${i}" ${m.sel.esc===i?'selected':''}>${esc(e.nome)} · ${esc(e.tipo)}</option>`:'').join('');
+  return `<div class="mtop"><h2>Magicanto</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>
+    <div class="bld">
+      ${lab('Tom',`<select class="f" data-b="mc.sel.tom" data-t="num" data-r="1">${tonOpts}</select>`)}
+      ${lab('Volume',`<select class="f" data-b="mc.sel.vol" data-t="num" data-r="1">${volOpts}</select>`)}
+      ${lab('Escala',`<select class="f" data-b="mc.sel.esc" data-t="num" data-r="1">${escOpts}</select>`)}
+    </div>${magicOut()}`;
+}
 function esc_(s){return esc(s)}
-function cardHtml(h,i){return `<div class="item"><div class="top">${inp(`habilidades.${i}.nome`,{cls:'grow',ph:'Habilidade'})}${inp(`habilidades.${i}.fonte`,{cls:'grow',ph:'Origem (classe)'})}<span class="lbl">NP</span>${stepper(`habilidades.${i}.np`,0,20)}${tgl(`habilidades.${i}.combate`,'Conflito')}<button class="btn ico sm bad" data-act="del" data-l="habilidades" data-i="${i}" aria-label="Remover">×</button></div>
-    <div style="margin-top:8px">${ta(`habilidades.${i}.desc`,{rows:3,ph:'Descrição'})}</div></div>`}
+/* ---------- NP nas habilidades: valor calculado sem esconder a fórmula ---------- */
+function npPoder(h){const c=S.classes.find(c=>normK(c.nome)===normK(h.fonte));return c?c.poderes.find(p=>normK(p.nome)===normK(h.nome)):null}
+function npAbil(h){const p=npPoder(h);return p?num(p.np):num(h.np)}
+const NP_RE=/\bNP\b(?:\s*([×x*+\-−])\s*(\d+))?/g;
+function npVal(op,k,n){k=num(k);return op==='+'?n+k:(op==='-'||op==='−')?n-k:n*k}
+function npHtml(h){
+  const n=npAbil(h);
+  return esc(h.desc||'').replace(NP_RE,(m,op,k)=>op?`<span class="npv">${m} <b>= ${npVal(op,k,n)}</b></span>`:`<span class="npv">${m} <b>(${n})</b></span>`);
+}
+function npResumo(h){
+  const n=npAbil(h),seen=new Set(),out=[];
+  String(h.desc||'').replace(NP_RE,(m,op,k)=>{if(op&&!seen.has(m)){seen.add(m);out.push(`<span class="tag npchip">${esc(m)} = <b>${npVal(op,k,n)}</b></span>`)}return m});
+  const usa=/\bNP\b/.test(String(h.desc||''));
+  return usa?`<div class="npbox"><span class="tag npchip">NP <b>${n}</b></span>${out.join('')}</div>`:'';
+}
+function cardHtml(h,i){return `<div class="item"><div class="top">${inp(`habilidades.${i}.nome`,{cls:'grow',ph:'Habilidade'})}${inp(`habilidades.${i}.fonte`,{cls:'grow',ph:'Origem (classe)'})}<span class="lbl">NP</span>${npPoder(h)?`<span class="tag" title="NP vem do poder, na aba Ficha">${num(npPoder(h).np)}</span>`:stepper(`habilidades.${i}.np`,0,20)}${tgl(`habilidades.${i}.combate`,'Conflito')}<button class="btn ico sm bad" data-act="del" data-l="habilidades" data-i="${i}" aria-label="Remover">×</button></div>
+    <div style="margin-top:8px">${ta(`habilidades.${i}.desc`,{rows:3,ph:'Descrição'})}</div>${npResumo(h)}</div>`}
 function simNP(){
   const c=S.classes.find(c=>norm(c.nome)==='simbolista');
   const p=c&&c.poderes.find(p=>norm(p.nome)==='simbolismo');
@@ -769,8 +819,8 @@ function simbolosHtml(){
   const items=S.simbolos.map((x,i)=>{const n=simCount(x.id);return `<div class="item ${n>0?'eq':''}"><div class="top"><button class="tokbtn" data-act="simImgPick" data-i="${i}" aria-label="Escolher imagem do símbolo" title="Imagem do símbolo">${simPic(x,56)}</button>${inp(`simbolos.${i}.nome`,{cls:'grow',ph:'Nome do símbolo'})}
     <span class="tag ${n?'ok':''}">Em jogo: ${n}</span><button class="btn ico sm bad" data-act="del" data-l="simbolos" data-i="${i}" aria-label="Remover símbolo">×</button></div>
     ${ta(`simbolos.${i}.desc`,{rows:3,ph:'Descrição do símbolo'})}</div>`}).join('');
-  return `<section class="card"><h2>Símbolos <span class="row"><span class="tag ${over?'warn':at?'ok':''}" style="font-size:14px" title="Limite = NP de Simbolismo + 1">Ativos ${at} / ${lim}</span><button class="btn sm" data-act="add" data-l="simbolos">+ Símbolo</button></span></h2>
-    <p class="note" style="margin:0 0 10px">Você pode ter até NP + 1 símbolos ativos (NP ${simNP()}). Criar e destruir símbolos é feito no controle abaixo: cada marca é uma criação e conta no limite. ${over?'<b style="color:var(--bad)">Acima do limite: destrua um símbolo.</b>':''}</p>
+  return `<section class="card"><h2>Símbolos <span class="row"><span class="tag ${pendSimbolos().dif!==0?'warn':'ok'}" style="font-size:14px" title="Cada NP de Simbolismo ensina dois símbolos">Aprendidos ${pendSimbolos().tem} / ${pendSimbolos().esp}</span><span class="tag ${over?'warn':at?'ok':''}" style="font-size:14px" title="Limite = NP de Simbolismo + 1">Ativos ${at} / ${lim}</span><button class="btn sm" data-act="refSimbolos">Regras</button><button class="btn sm" data-act="simPick">+ Símbolo</button></span></h2>
+    <p class="note" style="margin:0 0 10px">${(()=>{const q=pendSimbolos();return q.np?(q.dif>0?`<b style="color:var(--bad)">Faltam ${q.dif} símbolo(s) para escolher: cada NP de Simbolismo ensina dois.</b> `:q.dif<0?`<b style="color:var(--bad)">Há ${-q.dif} símbolo(s) a mais do que o NP permite (2 por NP).</b> `:''):''})()}Você pode ter até NP + 1 símbolos ativos (NP ${simNP()}). Criar e destruir símbolos é feito no controle abaixo: cada marca é uma criação e conta no limite. ${over?'<b style="color:var(--bad)">Acima do limite: destrua um símbolo.</b>':''}</p>
     ${items||'<p class="empty">Nenhum símbolo aprendido.</p>'}</section>`;
 }
 function simControleHtml(){
@@ -795,7 +845,7 @@ function tabClass(key){
   const addBtn=`<button class="btn sm" data-act="addHab" data-f="${esc(orph?'':c.nome)}">+ Habilidade</button>`;
   const skills=`<section class="card"><h2>Habilidades ${addBtn}</h2>${idx.map(i=>cardHtml(S.habilidades[i],i)).join('')||'<p class="empty">Nenhuma habilidade.</p>'}</section>`;
   return `<div class="grid">${head}${isS?simbolosHtml()+simControleHtml():''}${isV?`
-  <section class="card s7"><h2>Magicanto</h2>
+  <section class="card s7"><h2>Magicanto <span class="row">${(()=>{const q=pendMagicanto();return q.np?`<span class="tag" title="Escalas aprendidas + tons aprendidos">${q.esc} escalas + ${q.tons} tons = ${q.tem} / ${q.esp}</span>${pendTag(q,'escolha(s)')}`:''})()}</span></h2>
     <div class="bld">
       ${lab('Tom',`<select class="f" data-b="mc.sel.tom" data-t="num" data-r="1">${tonOpts}</select>`)}
       ${lab('Volume',`<select class="f" data-b="mc.sel.vol" data-t="num" data-r="1">${volOpts}</select>`)}
@@ -807,7 +857,7 @@ function tabClass(key){
     <h3>Escalas <span class="note">(marque as que você conhece)</span></h3><div class="scroll"><table class="t"><tr><th></th><th>Escala</th><th>Tipo</th><th>Condição</th><th>Atributo</th><th>Recup.</th></tr>
       ${m.escalas.map((e,i)=>`<tr><td><label class="tgl"><input type="checkbox" data-b="mc.escalas.${i}.on" data-t="bool" data-r="1" ${e.on?'checked':''} aria-label="Conheço ${esc(e.nome)}"></label></td><td>${inp(`mc.escalas.${i}.nome`,{cls:'sm'})}</td><td>${inp(`mc.escalas.${i}.tipo`,{cls:'sm'})}</td><td>${inp(`mc.escalas.${i}.cond`,{cls:'sm'})}</td><td>${inp(`mc.escalas.${i}.attr`,{cls:'sm'})}</td><td style="width:70px">${inp(`mc.escalas.${i}.rec`,{cls:'sm'})}</td></tr>`).join('')}</table></div>
   </section>
-  <section class="card s5"><h2>Tons <button class="btn sm" data-act="add" data-l="mc.tons">+ Tom</button></h2><div class="grid" style="gap:10px">
+  <section class="card s5"><h2>Tons <button class="btn sm" data-act="tomPick">+ Tom</button></h2><div class="grid" style="gap:10px">
     ${m.tons.map((t,i)=>`<div class="item" style="grid-column:span 12;margin:0"><div class="top">${inp(`mc.tons.${i}.nome`,{cls:'grow',ph:'Nome do tom'})}${inp(`mc.tons.${i}.duracao`,{cls:'n',ph:'Duração'})}<button class="btn ico sm bad" data-act="del" data-l="mc.tons" data-i="${i}" aria-label="Remover tom">×</button></div>${ta(`mc.tons.${i}.desc`,{rows:3,ph:'Efeito. Use (tipo da escala), (atributo da escala), (recuperação da escala) e "condição da escala" para o cálculo automático.',cls:'sm'})}</div>`).join('')}</div></section>
 `:''}${skills}</div>`;
 }
@@ -830,12 +880,12 @@ function tabCombate(){
 ;
   const EMO={A:'Admiração',I:'Inferioridade',L:'Lealdade',D:'Desconfiança',F:'Afeto',O:'Ódio'};
   const lacosConf=S.lacos.filter(b=>b.nome).map(b=>{const em=['a','l','f'].map(k=>b[k]).filter(Boolean);return `<div class="item" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><div class="grow" style="min-width:140px"><b style="font-size:17px">${esc(b.nome)}</b><div class="wt" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${em.length?em.map(x=>`<span class="tag">${EMO[x]}</span>`).join(''):'<span class="note">Sem emoções marcadas</span>'}</div></div><div class="bforce ${em.length?'':'z'}" style="font-size:30px;min-width:70px" title="Força do Laço"><small style="font-family:var(--body,inherit);font-size:10px;letter-spacing:.1em;color:var(--muted);font-weight:400">FORÇA</small>${em.length}</div></div>`}).join('')||'<p class="empty">Nenhum laço. Preencha na aba Ficha.</p>';
-  const habsCombate=S.habilidades.filter(h=>h.combate).map(h=>`<div class="item"><div class="top"><b class="grow">${esc(h.nome||'Habilidade')}</b>${h.fonte?`<span class="tag">${esc(h.fonte)}</span>`:''}<span class="tag">NP ${num(h.np)}</span></div><p style="margin:0;white-space:pre-wrap">${esc(h.desc)}</p></div>`).join('');
+  const habsCombate=S.habilidades.filter(h=>h.combate).map(h=>`<div class="item"><div class="top"><b class="grow">${esc(h.nome||'Habilidade')}</b>${h.fonte?`<span class="tag">${esc(h.fonte)}</span>`:''}<span class="tag">NP ${num(h.np)}</span></div><p style="margin:0;white-space:pre-wrap">${npHtml(h)}</p></div>`).join('');
   return `<div class="grid">
   <div class="fixbar"><div class="fstats"><div class="fchip"><small>DEFESA</small><b class="num">${d.def}</b></div><div class="fchip"><small>DEF. MAG.</small><b class="num">${d.defm}</b></div><div class="fchip"><small>INICIATIVA</small><b class="num">${d.init>0?'+':''}${d.init}</b></div><div class="fchip" title="O escudo equipado ocupa 1 mão"><small>MÃOS</small><b class="num" style="${d.maos>2?'color:var(--bad)':''}">${d.maos} / 2</b></div></div><div class="fdice">${dice}</div></div>
   <div class="s6 colstack">
   <section class="card"><h2>Resumo da Lyra</h2>
-    <h3>Condições</h3>${condHtml()}
+    <div class="condmag"><div class="condcol"><h3>Condições</h3>${condHtml()}</div>${magicoConflito()}</div>
     <h3>Armas equipadas</h3>${weapons||'<p class="empty">Nenhuma arma equipada. Marque "Equipada" na aba Equipamento.</p>'}
     ${prot?`<p class="note">${esc(prot)}</p>`:''}
   </section>
@@ -877,7 +927,7 @@ function showDock(r){
 }
 /* ---------- modais ---------- */
 function showModal(html,cls){const m=$('#modal');m.hidden=false;m.innerHTML=`<div class="mbox ${cls||''}" role="dialog" aria-modal="true">${html}</div>`}
-function closeModal(){$('#modal').hidden=true;$('#modal').innerHTML=''}
+function closeModal(){window.MAGMODAL=false;$('#modal').hidden=true;$('#modal').innerHTML='';if(window.SIMOPEN)showModal(simModalHtml(),'wide')}
 function askConfirm(text,fn,okLabel){
   showModal(`<h2>Confirmar</h2><p>${esc(text)}</p><div class="mrow"><button class="btn" data-act="closeModal">Cancelar</button><button class="btn pri" data-act="okConfirm">${esc(okLabel||'Confirmar')}</button></div>`);
   CONFIRM=fn;
@@ -922,6 +972,86 @@ function menuModal(){
 function toastModal(title,body){showModal(`<h2>${esc(title)}</h2><p>${body}</p><div class="mrow"><button class="btn pri" data-act="closeModal">Ok</button></div>`)}
 
 /* ---------- ações ---------- */
+/* ---------- catálogo de poderes por classe ----------
+   Não entra na ficha por si só: a habilidade é adicionada à aba da classe
+   quando o poder correspondente é adquirido (nome digitado ou escolhido na lista). */
+const normK=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+const CATALOGO={
+  virtuoso:[
+    {nome:'Magicanto',max:10,desc:'Em seu turno durante uma cena de conflito, você pode usar uma ação e gastar uma quantidade variável de PM para tecer sua voz e música num efeito mágico conhecido como verso.\nVocê só pode cantar um verso por turno, mesmo se puder fazer mais de uma ação.\nQuando você adquire esse poder, você aprende todos os três volumes, além de uma escala e um tom. Sempre que adquiri-lo novamente, você pode aprender mais uma escala ou um tom (a sua escolha).'},
+    {nome:'Harmonia',max:3,desc:'Após afetar um ou mais inimigos com um verso, se tiver uma arma arcana equipada, você pode escolher um: até o início do seu próximo turno, seus aliados causam NP de dano adicional a estes inimigos; ou até o início de seu próximo turno, você recupera NP Pontos de Mana cada vez que estes inimigos sofrerem dano (se a mesma fonte causar dano a dois ou mais inimigos ao mesmo tempo, você recupera NP PM para cada inimigo que sofreu esse dano).'},
+    {nome:'Canto da Sereia',max:1,desc:'Você pode fazer rituais da disciplina ritualismo; além disso, também pode usar ritualismo para criar ilusões sonoras.'},
+    {nome:'Barreira Sonora',max:5,desc:'Após cantar um verso em um volume médio ou forte, qualquer quantidade de dano físico que você sofrer até o início do seu próximo turno é reduzido em NP (antes de aplicar quaisquer Afinidades a dano).'},
+    {nome:'Vibrato',max:1,desc:'Após cantar um verso em volume fraco ou médio, você pode fazer um ataque livre com uma arma equipada, considerando sua RA como 0 ao calcular o dano.'}
+  ],
+  atirador:[
+    {nome:'Barragem',max:1,desc:'Ao fazer um ataque à distância, você pode gastar 10 PM para escolher uma das opções abaixo:\n- O ataque recebe a propriedade multi (2).\n- Aumentar em +1 a propriedade multi do ataque, até o máximo de multi (3).'},
+    {nome:'Fogo Cruzado',max:1,desc:'Quando uma criatura que você possa ver faz um ataque à distância, você pode gastar um total de PM igual a (5 + teste de Precisão da criatura alvo) para fazer o ataque falhar automaticamente contra todos os alvos. Você só pode usar este poder se tiver uma arma à distância equipada. Este poder não funciona se o teste de Precisão da criatura for um sucesso crítico.'},
+    {nome:'Olhos de Águia',max:5,desc:'Quando faz a ação Guarda, se escolher não dar cobertura a outra criatura, você pode escolher uma opção:\n- o próximo ataque à distância que você fizer na cena atual causa (NP × 3) pontos de dano adicional;\n- um ataque livre com um arco ou arma de fogo equipada, considerando sua RA como 0 ao calcular o dano causado por este ataque.'},
+    {nome:'Maestria Armas à Distância',max:4,desc:'Você recebe um bônus igual a NP em testes de Precisão à distância.'},
+    {nome:'Tiro de Aviso',max:4,desc:'Depois de atingir um ou mais alvos com um ataque à distância, você pode escolher não causar dano. Escolha uma opção, cada alvo atingido pelo ataque (escolha um):\n- fica abalado;\n- fica lento;\n- perde (NP × 10) PM.\nDescreva como você faz essa manobra!'}
+  ],
+  simbolista:[
+    {nome:'Conexão Simbólica',max:1,desc:'Você sempre sabe a direção exata de qualquer criatura que esteja com um de seus símbolos, desde que ela esteja a até 2 dias de viagem de sua posição.'},
+    {nome:'Miragem',max:1,desc:'Você pode fazer rituais da disciplina ritualismo; além disso, também pode usar ritualismo para criar ilusões visuais.'},
+    {nome:'Simbolismo',max:5,desc:'Sempre que adquirir este poder, aprenda dois símbolos (pp. 144-147).\nVocê pode ter até (NP + 1) símbolos ativos ao mesmo tempo; se criar mais símbolos além desse limite, antes deve escolher um de seus símbolos ativos para destruir.\nVocê pode fazer a ação Inventário e gastar 2 PI para criar um dos símbolos que aprendeu e escolher um: aplicar esse símbolo em si mesmo; ou aplicar esse símbolo num aliado que você consegue ver; ou fazer um ataque livre usando uma arma equipada. Esse ataque não causa dano, mas você aplica uma cópia do símbolo escolhido a cada inimigo que atingir (cada cópia conta como um símbolo individual para seu limite de (NP + 1) símbolos ativos).'},
+    {nome:'Símbolos Mágicos',max:3,desc:'Se um aliado estiver com um de seus símbolos, ele pode fazer a ação Feitiço para destruir o símbolo e lançar um único feitiço entre aqueles que você conhece. Para isso, o custo total em PM do feitiço deve ser igual ou menor a (NP × 10) (e o aliado ainda deve pagar o custo de PM).'},
+    {nome:'Toque Pessoal',max:5,desc:'Quando uma criatura que você possa ver e que esteja com um de seus símbolos sofrer dano e/ou recuperar PV e/ou PM, você pode fazer a criatura sofrer (NP) de dano adicional ou recuperar (NP) PV e/ou PM, respectivamente.'}
+  ]
+};
+// Tons que o Virtuoso pode aprender com o Magicanto (aparecem no seletor do botão "+ Tom").
+const TONS_CAT=[
+  {nome:'Calmo',duracao:'-',desc:'Cada alvo recupera (recuperação da escala) igual a (10 + o dobro de seu dado de Vontade). Se você estiver no 20º nível ou acima, essa quantidade aumenta em 10; se estiver no 40º nível ou acima, essa quantidade aumenta em 20.\nSe esse tom recuperar PM, ele não afeta o personagem que o cantar.'},
+  {nome:'Animado',duracao:'',desc:'Até o início do seu próximo turno, quando um alvo passar em um teste com (atributo da escala) que o permita avançar ou recuar um Relógio, o alvo pode preencher ou apagar uma seção adicional deste Relógio.'},
+  {nome:'Agitado',duracao:'',desc:'Cada alvo sofre dano de (tipo da escala) equivalente ao dobro de seu dado atual de Vontade. Se você estiver no 20º nível ou acima, esse dano aumenta em 10; se estiver no 40º nível ou acima, esse dano aumenta em 20.'},
+  {nome:'Mórbido',duracao:'-',desc:'Cada alvo sofre a condição da escala e também perde sua Resistência a dano de tipo da escala (se a tiver) até o início de seu próximo turno, e não pode tornar-se Resistente a esse tipo de dano.'},
+  {nome:'Vibrante',duracao:'',desc:'Cada alvo trata seu (atributo da escala) como sendo um tipo maior (até o máximo de d12) até o início do seu próximo turno.'},
+  {nome:'Ameaçador',duracao:'',desc:'Na primeira vez que o alvo sofrer dano antes do início do seu próximo turno, esse dano se torna (tipo da escala). Esse efeito pode se ativar separadamente, uma vez para cada alvo do verso.'},
+  {nome:'Solene',duracao:'',desc:'Cada alvo se recupera de condição da escala e também torna-se Resistente a dano de (tipo da escala) até o início de seu próximo turno.'}
+];
+const SIMBOLOS_CAT=[
+  {nome:'Símbolo das Amarras',desc:'O dado atual dos Atributos da criatura com este símbolo nunca pode ser maior que os respectivos dados básicos (isso não encerra qualquer efeito ou feitiço, mas impede sua influência sobre os Atributos da criatura).'},
+  {nome:'Símbolo do Crescimento',desc:'Magias com “até três criaturas” como alvo que forem lançadas pela criatura com este símbolo passam a ter “até quatro criaturas” como alvo. A criatura ainda deve gastar a quantidade de PM necessária para atingir um quarto alvo.'},
+  {nome:'Símbolo da Criação',desc:'Quando a criatura com este símbolo precisar gastar Pontos de Inventário em um conflito, ela pode destruir este símbolo para não precisar gastar PI.'},
+  {nome:'Símbolo do Desespero',desc:'Quando a criatura com este símbolo recuperar PV e/ou PM durante conflitos, ela recupera apenas a metade da quantidade normal de PV e/ou PM.'},
+  {nome:'Símbolo do Destino',desc:'Depois que a criatura com este símbolo rolar dados para fazer um teste, se você puder vê-la, pode gastar 1 Ponto de Fabula para forçá-la a rolar novamente ambos os dados. Isso só pode ser feito uma vez por teste e apenas se o resultado não for um sucesso crítico ou uma falha crítica.'},
+  {nome:'Símbolo dos Elementos',desc:'Ao criar este símbolo, escolha um tipo de dano: ar, fogo, gelo, luz, raio, terra, trevas ou veneno. Se puder ver a criatura com este símbolo quando ela causar dano a uma ou mais criaturas, você pode gastar um número de PM igual a um terço do total de dano causado (incluindo quaisquer fontes de dano adicional). Se fizer isso, todo dano causado dessa forma se transforma em dano do tipo escolhido na criação deste símbolo.'},
+  {nome:'Símbolo da Feitiçaria',desc:'O custo total em PM de magias que têm a criatura com este símbolo como alvo é reduzido em 5 PM (até o custo mínimo de 5 PM). Se o feitiço tiver mais de uma criatura com esse símbolo como alvo, o efeito é cumulativo.'},
+  {nome:'Símbolo do Fluxo',desc:'Ao criar este símbolo, escolha uma condição: abalado, atordoado, lento ou fraco. Então, escolha um: a criatura com este símbolo torna-se Imune à condição escolhida; ou a criatura com este símbolo perde sua Imunidade à condição escolhida e não pode recuperá-la.'},
+  {nome:'Símbolo da Fraqueza',desc:'Ao criar esse símbolo, escolha um tipo de dano: ar, fogo, gelo, luz, raio, terra, trevas ou veneno. A criatura com este símbolo sofre 5 pontos de dano adicional de fontes causando dano do tipo escolhido.'},
+  {nome:'Símbolo da Inimizade',desc:'Enquanto a criatura com este símbolo estiver em crise, qualquer inimigo da criatura que possa vê-la deve incluí-la entre os alvos de seus ataques e magias ofensivas, se possível.'},
+  {nome:'Símbolo da Metamorfose',desc:'Ao criar esse símbolo, escolha uma espécie: fera, construto, demônio, elemental, monstro, planta ou morto-vivo. A criatura com este símbolo é considerada como pertencente à espécie escolhida para efeitos e poderes, em vez da sua espécie original (o símbolo não altera mais nada na ficha da criatura, como Afinidades ou quaisquer regras especiais). Esse símbolo não pode ser aplicado a PJs.'},
+  {nome:'Símbolo da Proibição',desc:'Ao criar esse símbolo, escolha uma ação: Ataque, Guarda, Feitiço, Objetivo ou Poder. Quando a criatura com este símbolo fizer a ação escolhida, ela perde 5 PV e 5 PM (antes de fazer a ação). Se você estiver no 20º nível ou acima, ambos os valores aumentam em 10; se estiver no 40º nível ou acima, ambos os valores aumentam em 20.'},
+  {nome:'Símbolo da Prosperidade',desc:'Quando a criatura com este símbolo gastar 1 Ponto de Fabula para invocar um Traço ou Laço, ela também recebe 100 zênites.'},
+  {nome:'Símbolo da Proteção',desc:'Ao criar este símbolo, escolha um tipo de dano: ar, fogo, gelo, luz, raio, terra, trevas ou veneno. A criatura com este símbolo se torna Resistente ao tipo de dano escolhido.'},
+  {nome:'Símbolo da Rebelião',desc:'Se um vilão estiver na cena, quaisquer testes opostos feitos pela criatura com este símbolo têm sucesso crítico quando ambos os dados exibirem o mesmo número (desde que o resultado do teste não seja uma falha crítica).'},
+  {nome:'Símbolo do Renascimento',desc:'Se a criatura com este símbolo estiver prestes a chegar a 0 PV, ela pode destruir este símbolo: se fizer isso, seus PV são reduzidos exatamente para 1 em vez disso.'},
+  {nome:'Símbolo do Sacrifício',desc:'Quando uma criatura com este símbolo sofrer dano, se puder vê-la, você pode destruir este símbolo: se o fizer, em vez da criatura, você sofre a mesma quantidade de dano que ela receberia.'},
+  {nome:'Símbolo da Verdade',desc:'Testes feitos para examinar ou localizar a criatura com este símbolo, bem como testes de Precisão e testes de Magia para ataques e feitiços ofensivos que a tiverem entre seus alvos, recebem um bônus de +2. Se um ataque ou feitiço tiver mais de uma criatura com este símbolo como alvo, o efeito é cumulativo.'},
+  {nome:'Símbolo da Vingança',desc:'Quando uma criatura em crise atingir a criatura com este símbolo com um ataque ou feitiço ofensivo, a criatura em crise recupera 5 PV e 5 PM.'}
+];
+/* ---------- conferência de escolhas ligadas ao NP (Simbolismo e Magicanto) ---------- */
+function npDe(nome){let n=0;S.classes.forEach(c=>c.poderes.forEach(p=>{if(normK(p.nome)===normK(nome))n+=num(p.np)}));return n}
+function pendSimbolos(){const np=npDe('Simbolismo'),esp=2*np,tem=S.simbolos.filter(x=>x.nome).length;return {np,esp,tem,dif:esp-tem}}
+function pendMagicanto(){const np=npDe('Magicanto'),esp=np>0?np+1:0,esc=S.mc.escalas.filter(e=>e.on).length,tons=S.mc.tons.filter(x=>x.nome).length,tem=esc+tons;
+  let dif=esp-tem,falta='';if(np>0&&dif<=0){if(esc<1)falta='Falta ao menos uma escala.';else if(tons<1)falta='Falta ao menos um tom.'}
+  return {np,esp,esc,tons,tem,dif,falta}}
+function pendTag(p,what){
+  if(!p.np) return '';
+  const msg=p.dif>0?`Faltam ${p.dif} ${what}`:p.dif<0?`${-p.dif} ${what} a mais`:(p.falta||'Escolhas conferem');
+  const cls=(p.dif!==0||p.falta)?'warn':'ok';
+  return `<span class="tag ${cls}" title="Esperado pelo NP ${p.np}: ${p.esp}">${msg}</span>`}
+function catEntrada(classe,poder){const l=CATALOGO[normK(classe)];return l?l.find(e=>normK(e.nome)===normK(poder)):null}
+// Chamado quando o nome de um poder é confirmado: completa o poder e cria a habilidade, se ainda não existir.
+function catAplicar(ci,pj){
+  const c=S.classes[ci],p=c&&c.poderes[pj]; if(!p) return false;
+  const e=catEntrada(c.nome,p.nome); if(!e) return false;
+  p.nome=e.nome; if(!num(p.max)&&e.max) p.max=e.max;
+  const ja=S.habilidades.some(h=>normK(h.nome)===normK(e.nome)&&normK(h.fonte)===normK(c.nome));
+  if(ja) return false;
+  S.habilidades.push({nome:e.nome,fonte:c.nome,np:Math.max(1,num(p.np)),combate:false,desc:e.desc});
+  return true;
+}
 const LISTS={
   tons:()=>({nome:'',duracao:'',desc:''}),
   classes:()=>({nome:'',nivel:1,bpv:0,bpm:0,bpi:0,ben:'',poderes:[]}),
@@ -935,7 +1065,7 @@ const LISTS={
   simControle:()=>({nome:'',s:[]})
 };
 function listKey(p){return p.split('.').pop()}
-function commit(){touch();render()}
+function commit(){touch();render();if(window.SIMOPEN&&$('#simmodal'))showModal(simModalHtml(),'wide')}
 const ACT={
   tab:el=>{TAB=el.dataset.k;location.hash=TAB;renderTabs();renderView();window.scrollTo(0,0)},
   res:el=>resModal(el.dataset.r),
@@ -947,12 +1077,33 @@ const ACT={
   closeModal:()=>closeModal(),
   refOport:()=>showModal(`<div class="mtop"><h2>Oportunidades</h2><button class="btn sm" data-act="closeModal">Fechar</button></div><p class="note" style="margin:0 0 8px">Ao gastar uma oportunidade, escolha uma opção da lista ou crie uma reviravolta que se encaixe na cena. O mestre tem a palavra final.</p>${refOport()}`,'wide'),
   refAcoes:()=>showModal(`<div class="mtop"><h2>Ações</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>${refAcoes()}`,'wide'),
+  goSim:()=>{window.SIMOPEN=true;showModal(simModalHtml(),'wide')},
+  closeSim:()=>{window.SIMOPEN=false;closeModal()},
+  magModal:()=>{window.MAGMODAL=true;showModal(magModalHtml(),'wide')},
+  simPick:()=>{
+    const tem=S.simbolos.map(x=>normK(x.nome)),rest=SIMBOLOS_CAT.map((x,i)=>({x,i})).filter(o=>!tem.includes(normK(o.x.nome)));
+    showModal(`<div class="mtop"><h2>Adicionar símbolo</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>
+      <p class="note" style="margin:0 0 8px">Escolha um dos símbolos possíveis. O efeito entra pronto e pode ser editado depois.</p>
+      <div class="tompick">${rest.map(o=>`<button class="item tombtn" data-act="simAddCat" data-i="${o.i}"><b>${esc(o.x.nome)}</b><span>${esc(o.x.desc.length>150?o.x.desc.slice(0,147)+'…':o.x.desc)}</span></button>`).join('')||'<p class="empty">Você já tem todos os símbolos da lista.</p>'}
+      <button class="item tombtn" data-act="simAddCat" data-i="-1"><b>Símbolo em branco</b><span>Para um símbolo que não está na lista.</span></button></div>`,'wide')},
+  simAddCat:el=>{
+    const i=num(el.dataset.i),e=i>=0?SIMBOLOS_CAT[i]:{nome:'',desc:''};
+    const s=LISTS.simbolos();s.nome=e.nome;s.desc=e.desc;S.simbolos.push(s);closeModal();commit()},
+  refSimbolos:()=>showModal(`<div class="mtop"><h2>Regras dos símbolos</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>
+    <p class="note" style="margin:0 0 8px">Símbolos seguem algumas regras especiais.</p>
+    <ul class="reflist">${['Uma criatura só pode <b>estar com um símbolo por vez</b>. Se receber um novo símbolo, independentemente da fonte, o símbolo anterior é destruído.','Símbolos têm <b>efeito e duração ilimitados</b> até que sejam destruídos.','Se um simbolista morrer, cada símbolo que ele criou é <b>destruído automática e imediatamente</b>.','Se uma criatura que está com um símbolo morrer, o símbolo também é destruído. Mas, se a criatura for um NPC que apenas mudou de forma ou estatísticas ao ficar com 0 PV, isso não remove o símbolo. Em resumo: símbolos são vinculados “narrativamente” ao personagem, não a seus parâmetros e manifestação atual.','Durante uma cena do mestre, um vilão pode gastar <b>1 Ponto de Ultima</b> para destruir qualquer quantidade de símbolos vinculados a ele e aos seus aliados presentes na cena. Essa é a única maneira de remover um símbolo contra a vontade do simbolista que o criou, exceto pelo gasto de uma oportunidade apropriada à cena ou com um poder de NPC criado pelo mestre (mas isso não deve ser feito mais de duas ou três vezes por campanha).','Um simbolista pode <b>destruir quantos símbolos quiser</b> a qualquer momento, sem precisar usar qualquer tipo de ação.','Se um símbolo exigir que você faça uma escolha ao ser criado, a escolha se aplica a todas as cópias criadas pela mesma ação (mas não afeta cópias criadas por outras ações).'].map(x=>`<li>${x}</li>`).join('')}</ul>
+    <h3>Exemplo</h3><p style="margin:0">Se um simbolista aplicar dois símbolos de fraqueza (fogo) ao usar o poder Simbolismo combinado com um ataque com a propriedade <b>multi (2)</b>, as criaturas que receberem esses símbolos sofrerão dano adicional de fogo. Se, logo em seguida, aplicar um símbolo de fraqueza (raio) numa terceira criatura, as duas anteriores continuam sofrendo dano adicional de fogo, não de raio.</p>
+    <p class="note" style="margin-top:10px"><b>Lembre-se:</b> o número máximo de símbolos ativos ao mesmo tempo é definido pelo seu Nível de Poder em Simbolismo (NP + 1).</p>`,'wide'),
   refItens:()=>showModal(`<div class="mtop"><h2>Itens e Pontos de Inventário</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>${itensCard().replace(/^<section class="card"><h2>[^<]*<\/h2>/,'').replace(/<\/section>$/,'')}`,'wide'),
   okConfirm:()=>{const f=CONFIRM;CONFIRM=null;closeModal();if(f)f()},
   closeDock:()=>{$('#dock').hidden=true},
   pf:el=>{S.pf=Math.max(0,num(S.pf)+num(el.dataset.d));touch();renderHeader()},
   dieStep:el=>{const k=el.dataset.k,dir=num(el.dataset.d),nd=derive().dice[k]+2*dir;if(nd<6||nd>12)return;S.attrBonus[k]=num(S.attrBonus[k])+2*dir;commit()},
-  step:el=>{const p=el.dataset.p,v=clamp(num(getP(p))+num(el.dataset.d),num(el.dataset.min),num(el.dataset.max));setP(p,v);commit()},
+  step:el=>{const p=el.dataset.p,ant=num(getP(p)),v=clamp(ant+num(el.dataset.d),num(el.dataset.min),num(el.dataset.max));setP(p,v);commit();
+    const mp=p.match(/^classes\.(\d+)\.poderes\.(\d+)\.np$/);
+    if(mp&&v>ant){const pw=S.classes[num(mp[1])].poderes[num(mp[2])],k=normK(pw.nome);
+      if(k==='simbolismo')toastModal('Simbolismo NP '+v,'Aprenda mais <b>dois símbolos</b> (botão <b>+ Símbolo</b> na aba Simbolista). Total esperado: <b>'+(2*npDe('Simbolismo'))+'</b> símbolos.');
+      else if(k==='magicanto')toastModal('Magicanto NP '+v,'Aprenda mais <b>uma escala ou um tom</b>, à sua escolha (aba Virtuoso). Total esperado: <b>'+(npDe('Magicanto')+1)+'</b> escolhas entre escalas e tons.')}},
   status:el=>{S.status[el.dataset.k]=!S.status[el.dataset.k];commit()},
   bond:el=>{const b=S.lacos[num(el.dataset.i)],k=el.dataset.k,v=el.dataset.v;b[k]=b[k]===v?'':v;commit()},
   add:el=>{const p=el.dataset.l;const arr=getP(p);arr.push(LISTS[listKey(p)]());commit()},
@@ -968,7 +1119,22 @@ const ACT={
     askConfirm('Criar '+nm+' em '+who+' por 2 PI?',()=>{r.s.push(id);S.piGasto=num(S.piGasto)+custo;commit()},'Criar');
   },
   addDiario:()=>{S.diario.push({data:today(),titulo:'',resumo:'',texto:''});commit()},
-  del:el=>{const p=el.dataset.l,i=num(el.dataset.i),arr=getP(p);askConfirm('Remover este item?',()=>{arr.splice(i,1);commit()},'Remover')},
+  del:el=>{const p=el.dataset.l,i=num(el.dataset.i),arr=getP(p);askConfirm('Remover este item?',()=>{
+    const mc=p.match(/^classes\.(\d+)\.poderes$/);let hab=null;
+    if(mc){const c=S.classes[num(mc[1])],pw=arr[i],e=c&&pw&&catEntrada(c.nome,pw.nome);if(e)hab=S.habilidades.find(h=>normK(h.nome)===normK(e.nome)&&normK(h.fonte)===normK(c.nome))}
+    arr.splice(i,1);commit();
+    if(hab)askConfirm('Remover também a habilidade "'+hab.nome+'" da aba da classe?',()=>{const k=S.habilidades.indexOf(hab);if(k>=0){S.habilidades.splice(k,1);commit()}},'Remover habilidade')},'Remover')},
+  tomPick:()=>{
+    const tem=S.mc.tons.map(x=>normK(x.nome)),rest=TONS_CAT.map((x,i)=>({x,i})).filter(o=>!tem.includes(normK(o.x.nome)));
+    showModal(`<div class="mtop"><h2>Adicionar tom</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>
+      <p class="note" style="margin:0 0 8px">Escolha um tom do Virtuoso. O texto entra pronto e pode ser editado depois.</p>
+      <div class="tompick">${rest.map(o=>`<button class="item tombtn" data-act="tomAdd" data-i="${o.i}"><b>${esc(o.x.nome)}</b><span>${esc(o.x.desc.split('\n')[0])}</span></button>`).join('')||'<p class="empty">Você já tem todos os tons da lista.</p>'}
+      <button class="item tombtn" data-act="tomAdd" data-i="-1"><b>Tom em branco</b><span>Para um tom que não está na lista.</span></button></div>`,'wide')},
+  tomAdd:el=>{
+    const i=num(el.dataset.i),e=i>=0?TONS_CAT[i]:{nome:'',duracao:'',desc:''},tons=S.mc.tons;
+    const livre=tons.findIndex(x=>!x.nome&&!x.desc);
+    if(livre>=0)tons[livre]={nome:e.nome,duracao:e.duracao,desc:e.desc};else tons.push({nome:e.nome,duracao:e.duracao,desc:e.desc});
+    closeModal();commit()},
   cast:()=>{
     const m=S.mc,tom=m.tons[m.sel.tom],vol=m.volumes[m.sel.vol],esc=m.escalas[m.sel.esc],d=derive(),c=num(vol.custo);
     if(c>d.pm){toastModal('PM insuficientes','Você tem '+d.pm+' PM e este canto custa '+c+'.');return}
@@ -1024,6 +1190,9 @@ document.addEventListener('change',e=>{
   if(!p) return;
   let v=el.type==='checkbox'?el.checked:el.value; if(el.dataset.t==='num') v=Number(v);
   setP(p,v);touch();
+  const mp=p.match(/^classes\.(\d+)\.poderes\.(\d+)\.nome$/);
+  if(mp){const novo=catAplicar(num(mp[1]),num(mp[2]));render();if(novo){const c=S.classes[num(mp[1])];toastModal('Habilidade adicionada','A habilidade <b>'+esc(c.poderes[num(mp[2])].nome)+'</b> foi adicionada à aba '+esc(c.nome)+'.')}return}
+  if(window.MAGMODAL&&p.startsWith('mc.sel.')){showModal(magModalHtml(),'wide');render();return}
   if(el.dataset.r){render()}else{renderHeader();updateCalcs()}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#modal').hidden)closeModal()});
