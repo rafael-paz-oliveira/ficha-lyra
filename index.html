@@ -210,6 +210,7 @@ summary{cursor:pointer;color:var(--muted);min-height:32px;display:flex;align-ite
 .out .cost{font-family:var(--display);font-size:24px;color:var(--pm)}
 .out p{margin:6px 0;white-space:pre-wrap}
 .out b.k{color:var(--brass2)}
+table.ref td.rk{font-weight:600;color:var(--brass2);white-space:nowrap;padding-right:12px;vertical-align:top}table.ref td{vertical-align:top;padding:6px 6px}table.ref.tests td.rk{white-space:normal;color:var(--text);font-weight:400}table.ref.tests td:last-child{white-space:nowrap;text-align:right;color:var(--brass2)}.reflist{margin:6px 0 0;padding-left:18px}.reflist li{margin:4px 0}
 table.t{width:100%;border-collapse:collapse;font-size:14px}
 table.t th{font-size:11px;letter-spacing:.1em;color:var(--muted);text-align:left;font-weight:600;padding:4px 6px}
 table.t td{padding:3px 4px;border-top:1px solid var(--line)}
@@ -233,6 +234,14 @@ table.t td{padding:3px 4px;border-top:1px solid var(--line)}
 #modal{position:fixed;inset:0;z-index:50;background:rgba(5,8,16,.72);display:flex;align-items:center;justify-content:center;padding:16px}
 #modal[hidden],#dock[hidden]{display:none}
 .mbox{background:var(--panel);border:1px solid var(--brass);border-radius:14px;padding:18px;width:100%;max-width:460px;max-height:92vh;overflow:auto}
+.mbox.wide{max-width:760px}.mbox .mtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.mbox .mtop h2{margin:0}.fixbar{grid-column:1/-1;position:sticky;top:calc(var(--hh,84px) + var(--th,46px) + 6px);z-index:12;display:flex;flex-wrap:wrap;gap:8px 12px;padding:8px;background:#121a2c;border:1px solid var(--brass);border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.fstats{display:grid;grid-template-columns:repeat(4,minmax(62px,1fr));gap:6px;flex:1 1 300px}
+.fchip{background:#0f1628;border:1px solid var(--line);border-radius:10px;padding:4px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.fchip small{font-size:10px;letter-spacing:.1em;color:var(--muted)}.fchip b{font-size:22px;color:var(--brass2);font-family:var(--display);line-height:1.1}
+.fdice{display:grid;grid-template-columns:repeat(4,minmax(92px,1fr));gap:6px;flex:2 1 440px}
+.fixbar .at{padding:4px 6px}.fixbar .at .nm{font-size:10px}.fixbar .at .die{font-size:26px;min-width:38px}.fixbar .dbtn{width:30px;height:30px;font-size:17px}.fixbar .dierow{gap:4px}
+.confbar{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}.confbar .btn{flex:1 1 160px;min-height:46px;font-size:15px}
+.mbox h3{margin:14px 0 6px;font-size:13px;letter-spacing:.06em;color:var(--brass2)}
 .mbox h2{font-size:17px;color:var(--brass2);margin-bottom:10px}
 .resform{display:grid;gap:10px;margin:12px 0}.rf{display:grid;grid-template-columns:78px 1fr auto;gap:8px;align-items:center}.rf span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.rf input{min-height:46px;font-size:20px;text-align:center}.rf .btn{min-height:46px;min-width:96px}
 .presets{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:10px 0}
@@ -376,8 +385,8 @@ const TOKEN_NAMES={renascimento:'Renascimento',criacao:'Criação',destino:'Dest
 function tokKey(nome){const n=String(nome||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');return Object.keys(TOKEN_NAMES).find(k=>n.includes(k))||''}
 function simImg(x){const v=x.img||('tok:'+tokKey(x.nome));return v.startsWith('tok:')?(TOKENS[v.slice(4)]||''):v}
 const simPic=(x,sz)=>{const u=simImg(x);return u?`<img class="tok" src="${u}" alt="" width="${sz}" height="${sz}">`:`<span class="tok none" style="width:${sz}px;height:${sz}px"></span>`};
-const SESSOES_SEED=/*SESSOES*/[];
-const APP_VERSION='1.10.2',APP_BUILD='10/11/2026';
+const SESSOES_SEED=[{"data": "2026-06-06", "titulo": "Mizuno e o Circo Karmesin", "resumo": "Na taverna Unicórnio Brisadinho, em Mizuno, o grupo aceita a missão da guilda (1.200z) de libertar um cobrador de impostos capturado; o destino é Blohouson. Cid analisa a arma da Lyra: tecnologia desconhecida e peça incompleta de um conjunto, talvez vinda de um reino mágico. Luna descobre que algo estava sendo invocado na dungeon. O prefeito Rudolph conta que moradores sumiram. O circo Karmesin aparece: Lyra ganha o prêmio máximo no tiro ao alvo, o grupo recebe uma moeda mágica da trupe vermelha. Numa cena à parte, Grim e uma figura de máscara de praga falam em cumprir o contrato e coletar almas. Lance revela que fez parte do Chronos, que faz experimentos em pessoas. Próximo destino: Klifone.", "texto": "1) Nos encotramos na vila de Mizuno, em uma taverna(Unicórnio Brisadinho) onde pegamos a missão guilda, onde um cobrador de impostos foi capturado e alguns outros grupos tentaram e não sucederam. A recompensa é de 1200z e a missão é a mais recomendada para ganhar influencia na guilda.\nA Cidade Blohouson é o nosso destino\n\n2) Eu entrego a arma Cid para analise da arma, ele me diz que arma de uma tecnologia diferente que ele conhece, e ela faz parte de um conjunto e está incompleta atualmente. Possivelmente veio de um reinos magias.\n\nLuna fez um ritual de entropia para tentar entender a origem mágica da arma,  e não consegue descobrir nada de informação além de que a arma é desse mundo.\n\n3) Chegamos na dungeon e após perfomar uma investigação Luna descobre que algo estava sendo iinvocado na masmorra\n\n4)Chegando na vila, vamos até o prefeito rudolph, e CID vende os materias adquiridos após os espólios da batalha. Alguns moradores foram até  lá e não voltaram.\n\n5) A medida que nos aproximamos da dungeon o circo Karmesin se materializa no lugar. Eu participo de um jogo de tiro alvo, onde eu ganho o premio maximo após acertar todos os disparos eu ganho ingresso para todos.\n\nMuitos do humanos do circo tem chifres, o que é curioso, o atirador me convida ao palco e acerto todos os alvos.\n\nCid performa acrobacias\n\nLuna tenta ler a sorte de Grim ( o mestre de cerimonia ) e não vai tao bem\n\nLance se transforma e aniquila uma lagarta.\n\nRecebemos uma moeda de premio, que contem simbolos magicos, ela se identifica como parte da trupe vermelha.\n\n6) Grim conta que a com a moeda de ouro, podemos ter sorte.\n\n7) Entramos no circo, a cena corta para um vilao, onde grim conversa com uma figura que porta uma mascara de praga. Ele diz que eles devem cumprir o contrato e coletar as almas. Mestre do circo o vilao.\n\n8) Lance diz que fez parte de um grupo chamado de Chronos, que atua como pesquisadores em Calli, e fazem experimentos em pessoas.\n\n9) Vamos para Kliforn uma cidade ao sudeste de onde estamos."}, {"data": "2026-06-28", "titulo": "Viagem a Klifone", "resumo": "Viagem tranquila, exceto por saqueadores no segundo dia (2 congelados, 2 mortos, 1.000z de espólio). Em Klifone, Elisa, da guilda GGG, pede detalhes do ocorrido. O circo foi visto perto de Zenafar, e um grupo terrorista aproveita a explosão para manipular o rio das almas; aventureiros reencarnam de tempos antigos. O diretor de operações recruta o grupo, e Minerva von Derlt, entropista, espera na torre Belgoze. A rota tem monstros do mar, saqueadores, fragmentos elementais e aves.", "texto": "O Primeiro dia de viagem é muito tranquilo. No segundo dia somos abordados por saqueadores?  Vencemos a batalha congelando 2 inimigos e matando 2 deles, e encotramos 1000z.\n\nTerceiro dia de viagem é tranquilo e avistamos Klifone ao longe, e chegamos no 4 dia na cidade\n\nVamos até a  cede da GGG na cidade, uma taverna muito maior do que a primeira que encontramos, Elisa uma elfa da guilda nos recebe e pede mais informações sobre o que aconteceu lá.\n\nA cidade tem um belo porto\n\nApós a queda da Galbadia o movimento da cidade diminiui\n\nNa região de Zenafar o circo foi avistado a um dia após ele ter saído da pequena da vila\n\nO diretor de operações da região elenca nós para ajudar, um grupo terrorista está utilizando a oportunidade causada pela explosão para maniupular o rio das almas\n\nAlguns aventureiros estão reencarnado de tempos antigos.\n\nA entropista (Minerva von Derlt) se encontra na torre Belgoze e é um local com bastante informação.\n\nA rota apresenta vários monstros do mar\n\nPeixes espinho\n\nHidrosoarios\n\nSaqueadores\n\nFragmentos elementais de gelo ou vento\n\nAves"}, {"data": "2026-08-01", "titulo": "Torre de Belgoze e o livro de PAC", "resumo": "A guarda procura Lance por causa do experimento que o permite virar outro. Na torre de Belgoze, Minerva já esperava o grupo, e a resistência à manipulação do rio das almas está diminuindo. No hall há uma tábua de quatro círculos (estações, elementos, raças e constelações). Usando a arma como foco, Lyra obtém o conhecimento do livro de PAC, o herói: como construir um cubo de teletransporte. O volume I de XII foi achado no andar do vento. Surge um caixão tecnológico com batida de coração, diante de um grupo de aventureiros. O anão destrói as evidências, e Luna revela ser uma retornada.", "texto": "A guarda está procurando o Lance, devido ao que parece ser o experimento que foi realizado nele que o deixou capaz de virar outro.\n\nChegamos até a torre de Belgoze, em 3-4 dias, é uma pequena ilha com uma torre.\n\nMinerva nos recebe e diz que estava nos esperando´\n\nSensação de que algo mágico está ativo nesse local\n\nVárias pessoa já tentaram manipular o rio das almas, mas ninguém nunca conseguiu utilizar ele de maneira efetiva, a resistência de manipulação ao rio das almas está diminuido.\n\nAo entrar no grande hall vemos um grande tábua com 4 círculos onde cada um represtanta:\n\n4 estações\n\n6 elemesntos todos menos relampago\n\n8 espaços, figuras de diferente de raças\n\n12 constalações zodiacos\n\nAo utilizar a arma como foco eu consigo o conhecimento do livro, PAC o grande o herói. Dela caí a informação de como construiu um cubo de teletransporte. O volume I foi encontrando no andar do vento.\n\nO livro I de XII das históras de PAC é o inicio da jornada. Ele possui 12 cap cada um dividido em 4. Algumas páginas contem pequenos simbolos que representam os elementos.\n\nConta a históia de um aventureiro, que saiu da vila para tentar salvar a familia dele da fome\n\nO Livro é uma homenagem há\n\nKthei o ORC\n\nJhoira a elfa\n\nDhunter o anão\n\nO autor do livro está apagado e ele foi publicado num periodo muito antigo. Essa série de livros é utilizado para enfrentar o grande mal.\n\nUma camâra sobe do chão onde vemos um caixão tecnológico nesse caixão com uma batida de coração. Um grupo de aventureiros em frente ao caixão que remente aos aventureiros do livros. O anão destrói todas as evidencias de que essa historia não repita.\n\nLuna abre o jogo e diz que é uma retornada admitindo que por isso foi capaz de invocar o livro."}, {"data": "2026-09-26", "titulo": "Visões e a volta ao circo", "resumo": "Lance fica abalado e Lyra se reserva, lendo o livro de PAC, que muda quando exposto aos elementos. O circo usa o rio das almas para canalizar energia. No andar da luz surge uma orbe na mão de Lance, e Luna projeta uma visão de uma vila rural de roupas brancas, ligada a Winhill, depois vivida em primeira pessoa com uma xamã de outra era. Ao tocarem a orbe e pensarem no circo, todos vão parar no circo Karmesin e decidem sabotar o espetáculo, feito para Luna, numa atmosfera sombria.", "texto": "Saímos dos andares da biblioteca, Lance esta visivelmente afetado do que aconteceu com ele, mas eu acabo muito curioso com a história de PAC e fico mais reservado lendo o livro.\n\nO Circo karmesin esta usando o rio das almas para canalizar energia para algo. Não sabemos o que está acontecendo.\n\nO Livro muda quanto exposto ao elemento e apresenta anotações diferentes das que estão escritas nas páginas. Todos os elementos estão representados, seria necessário algum item que fosse capaz de emular cada elemento para fazer essa leitura.\n\nCid tenta entender á tabua e eu auxilio ele e falhamos, vamos até o andar da luz e uma orbe se materializa na mão Lance. Luna ao segurar a orbe faz com que uma imagem se projete na sala como um todo.\n\nA cena se passa numa vila rural onde crianças brincam, adultos se aproximam usando roupas brancas. O local parece ter uma natureza muito fora do que é normal.\n\nCid diz que as pessoas estão se vestindo como pessoas de “Winhil”, Luna reage a informação e o ambiente todo treme.\n\nA Cena muda e vivenciamos ela como se fosse em primeira pessoa, não conseguimos mais perceber uns aos outros.\n\nUma xamã de outra era, não conseguimos entender o que é perguntado\n\nNão entendo o que aconteceu nesse cena.\n\nAo todos tocarmos e pensarmos no circo, acabamos todos acabando no circo karmesin,  decidimos que vamos tentar não fazer o espetáculo dar certo.\n\nAo observar notamos uma pessoa com vestimenta de soldados, além disso outro grupo de aventureiros se encontram na mesma situação que nós.\n\nO circo está com uma atmosfera mais sombria, o espetáculo é feito especialmente para Luna. OH NO!"}, {"data": "2026-08-17", "titulo": "O ritual do condutor", "resumo": "O grupo se reagrupa e se recupera. Minerva os encontra por uma linha de magia de origem desconhecida. O condutor vê Luna como um exímio receptáculo, e sua máscara cai: é alguém de Winhill. Grim sai levando Divini e a alma de uma criança. O condutor usa uma espécie de pedra filosofal para trazer de volta uma divindade de Winhill, que fica instável e incompleta pela pressa. O grupo completa o ritual, escapa com Minerva e volta à torre. Sem anotações sobre a árvore da vida.", "texto": "Nós no reagrupamos  e usamos vários recursos para nos recuperar\n\nMinerva veio até nós através de uma linha de magia que possibilitou ela nos encontrar, não sabemos o que ou quem gerou essa possibilidade\n\nLuna é considerada um exímio receptáculo pelo condutor\n\nA Máscara do condutor caí e vemos uma pessoa que parece ter vindo da região de winhill\n\nGrim saí de cena, levando Divini e alma de uma criança que ela havia oferecido.\n\nO condutor usa uma éspecida de uma pedra filosofal, para trazer um divindade de Winhill de volta, devido a pressa com que foi realizado ele ficou instavél e incompleto.\n\nCompletamos o ritual e acabamos escapando com a Minerva, voltamos até a torre.\n\nNão anotei nada sobre a árvore da vida"}];
+const APP_VERSION='1.12.5',APP_BUILD='10/11/2026';
 const SIMBOLISMO_DESC='Sempre que adquirir este poder, aprenda dois símbolos (pp. 144-147).\nVocê pode ter até (NP + 1) símbolos ativos ao mesmo tempo; se criar mais símbolos além desse limite, antes deve escolher um de seus símbolos ativos para destruir.\nVocê pode fazer a ação Inventário e gastar 2 PI para criar um dos símbolos que aprendeu e escolher um: aplicar esse símbolo em si mesmo; ou aplicar esse símbolo num aliado que você consegue ver; ou fazer um ataque livre usando uma arma equipada. Esse ataque não causa dano, mas você aplica uma cópia do símbolo escolhido a cada inimigo que atingir (cada cópia conta como um símbolo individual para seu limite de (NP + 1) símbolos ativos).';
 function migrate(s){
   const v0=s.v||1;
@@ -439,7 +448,7 @@ function merge(base,src){ // completa chaves ausentes (fichas antigas ou importa
 let S=loadState(makeDefault());
 try{const raw=localStorage.getItem(KEY); if(raw) S=loadState(JSON.parse(raw));}catch(e){}
 let TAB=(location.hash||'#ficha').slice(1);
-function getTabs(){const t=[['ficha','Ficha'],['equipamento','Equipamento'],['combate','Combate']];S.classes.forEach((c,i)=>t.push(['cls-'+i,c.nome||('Classe '+(i+1))]));if(orphanIdx().length)t.push(['cls-x','Outras']);t.push(['acampamento','Acampamento']);t.push(['diario','Diário']);return t}
+function getTabs(){const t=[['ficha','Ficha'],['equipamento','Equipamento'],['combate','Conflito']];S.classes.forEach((c,i)=>t.push(['cls-'+i,c.nome||('Classe '+(i+1))]));if(orphanIdx().length)t.push(['cls-x','Outras']);t.push(['acampamento','Acampamento']);t.push(['referencias','Referências']);t.push(['diario','Diário']);return t}
 function fixTab(){if(!getTabs().some(t=>t[0]===TAB))TAB='ficha'}
 fixTab();
 let dirty=false,saving=false,saveTimer=null,dbDoc=null,dbReady=false,lastSaved='',syncState='local',DOCK=null;
@@ -580,7 +589,7 @@ function renderHeader(){
       <button class="btn ico" data-act="menu" aria-label="Menu"><span id="syncdot" class="${dotCls()}" title="${esc(syncLabel())}"></span></button>
     </div>`;
   $('.who small').textContent='Nível '+num(S.nivel)+' · '+S.classes.filter(c=>c.nome).map(c=>c.nome+' '+num(c.nivel)).join(' / ');
-  document.documentElement.style.setProperty('--hh',$('#top').offsetHeight+'px');
+  document.documentElement.style.setProperty('--hh',$('#top').offsetHeight+'px');document.documentElement.style.setProperty('--th',($('#tabs')?$('#tabs').offsetHeight:46)+'px');
 }
 function renderTabs(){
   fixTab();$('#tabs').innerHTML=getTabs().map(([k,n])=>`<button data-act="tab" data-k="${k}" class="${k===TAB?'on':''}">${n}</button>`).join('');
@@ -678,6 +687,7 @@ function tabEquip(){
       <div class="stats">${lab('Custo (z)',inp('acessorio.custo',{num:1}))}</div><div style="margin-top:8px">${ta('acessorio.notas',{ph:'Efeito',cls:'sm'})}</div></div>
   </section>
   <section class="card"><h2>Mochila</h2>${ta('mochila',{rows:5,ph:'Itens carregados',cls:'sm'})}</section>
+  ${itensCard()}
   </div>`;
 }
 
@@ -685,6 +695,43 @@ function tabAcamp(){
   return `<div class="grid">
   <section class="card"><h2>Atividades de acampamento <button class="btn sm" data-act="add" data-l="acamp">+ Atividade</button></h2>
     ${S.acamp.map((c,i)=>`<div class="item"><div class="top">${inp(`acamp.${i}.nome`,{cls:'grow',ph:'Atividade'})}${inp(`acamp.${i}.alvo`,{cls:'grow',ph:'Alvo'})}<button class="btn ico sm bad" data-act="del" data-l="acamp" data-i="${i}" aria-label="Remover">×</button></div>${ta(`acamp.${i}.desc`,{ph:'Efeito',cls:'sm'})}</div>`).join('')||'<p class="empty">Nenhuma atividade.</p>'}</section>
+  </div>`;
+}
+
+/* ---------- aba Referências (consulta rápida) ---------- */
+function refTb(head,rows,cls){return `<table class="t ref ${cls||''}"><thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>i===0?`<td class="rk">${c}</td>`:`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`}
+function refOport(){
+  const oport=[['Aflição','Uma criatura fica <b>abalada, atordoada, fraca</b> ou <b>lenta</b>.'],['Avaliar','Você descobre uma <b>Vulnerabilidade</b> ou um <b>Traço</b> de uma criatura que possa ver.'],['Conexão','Você cria um Laço com algo ou alguém, ou adiciona uma <b>emoção</b> a um Laço que já tem.'],['Desmascarar','Você descobre objetivos e motivações de uma criatura à sua escolha.'],['Favor','Suas ações garantem apoio ou admiração de uma pessoa ou grupo.'],['Informações','Você detecta uma pista ou detalhe útil. O mestre diz o que é, ou pede que você o descreva ou invente.'],['Item perdido','Um item é destruído, perdido, roubado ou abandonado.'],['Mancada','Escolha uma criatura na cena: quem a controla deve interpretar um comentário comprometedor feito por ela.'],['Progresso','Você preenche ou apaga até duas seções de um relógio.'],['Reviravolta!','Alguém ou algo à sua escolha aparece de repente na cena.'],['Vantagem','O próximo teste feito por você ou por um aliado à sua escolha recebe um bônus de <b>+4</b>.']];
+  return refTb(['Oportunidade','Efeito'],oport)}
+function refAcoes(){
+  const acoes=[['Atacar','Você faz um ataque corpo a corpo ou à distância.'],['Equipamento','Troca qualquer quantidade de itens equipados por itens da mochila. Não vale para <b>armaduras</b>.'],['Guarda','Até o início do seu próximo turno: você ganha Resistência a todos os tipos de dano; ganha +2 em testes resistidos; e pode <b>proteger</b> outra criatura, impedindo ataques corpo a corpo contra ela.'],['Atrapalhar','Você faz um teste (DL 10) contra um oponente. Se tiver sucesso, ele sofre <b>atordoado, enfurecido, lento</b> ou <b>fraco</b>.'],['Inventário','Você gasta Pontos de Inventário para produzir e usar imediatamente um item consumível.'],['Objetivo','Você trabalha para cumprir um objetivo no conflito. Exige um teste de Atributo ou teste resistido; objetivos complexos costumam exigir um Relógio.'],['Magia','Você lança uma das magias que conhece.'],['Estudar','Você tenta obter informação sobre alguém ou algo. Em geral exige um teste aberto <b>[AST + AST]</b>.'],['Habilidade','Algumas Habilidades exigem que você gaste uma ação.'],['Outra','Uma ação não coberta acima: negocie a resolução e os efeitos com o Mestre.']];
+  return refTb(['Ação','Descrição'],acoes)}
+function itensCard(){
+  const itens=[['Poções','','',''],['Elixir','3','Uma criatura recupera 50 Pontos de Mente.'],['Remédio','3','Uma criatura recupera 50 Pontos de Vida.'],['Tônico','2','Uma criatura se recupera de um efeito de status.'],['Utilidade','',''],['Fragmento Elemental','2','Uma criatura sofre 10 de dano de um tipo à sua escolha (<b>ar, raio, terra, fogo</b> ou <b>gelo</b>).'],['Tenda Mágica','4','Permite que todo o grupo <b>descanse</b> na natureza.']];
+  return `<section class="card"><h2>Itens e Pontos de Inventário</h2>${refTb(['Item','PI','Efeito'],[['<b>Poções</b>','',''],...itens.slice(1,4),['<b>Utilidade</b>','',''],...itens.slice(5)])}
+    <h3>Recarregando Pontos de Inventário</h3><p style="margin:0">Os personagens recarregam PI quando estão numa vila, cidade ou outro lugar onde possam comprar equipamento. O custo é de <b>10 zênites por Ponto de Inventário</b> recarregado.</p></section>`;
+}
+function tabRef(){
+  const tb=refTb;
+  const status=[['Atordoado','Reduz temporariamente em um passo o dado de <b>Astúcia</b>.'],['Enfurecido','Reduz em um passo os dados de <b>Destreza</b> e <b>Astúcia</b>.'],['Envenenado','Reduz em um passo os dados de <b>Vigor</b> e <b>Vontade</b>.'],['Abalado','Reduz em um passo o dado de <b>Vontade</b>.'],['Lento','Reduz em um passo o dado de <b>Destreza</b>.'],['Fraco','Reduz em um passo o dado de <b>Vigor</b>.']];
+  const pf=[['Alterar a história','1','Altera um elemento existente ou cria um novo, de forma vantajosa (se mexer em elementos de outra pessoa, peça permissão a ela).'],['Evocar Traço','1','Depois de um teste, rerrola um ou os dois dados (não vale após falha crítica).'],['Evocar Laço','1','Depois de um teste, soma a força do Laço ao resultado (uma vez por teste).'],['Usar Habilidade','varia','Usa uma Habilidade que exige Pontos de Fábula.']];
+  const ganhar=['Se o personagem não tem nenhum ponto no início da sessão, recebe 1.','Ao rolar uma <b>falha crítica</b> em um teste, recebe 1.','Quando um vilão entra em cena, cada personagem recebe 1.','Ao chegar a 0 PV e decidir <b>se render</b>, recebe 2.','Regra opcional: ao evocar uma falha (veja abaixo), recebe 1.'];
+  const laços=['Admiração ou inferioridade','Lealdade ou desconfiança','Afeto ou ódio'];
+  const testes=[['Mover-se em silêncio, esconder-se e agir sem ser notado','DES + DES'],['Evitar uma armadilha ou fugir de um prédio desabando','DES + AST'],['Antecipar os movimentos de alguém e pegá-lo de surpresa','DES + AST'],['Concluir um trabalho artesanal ou consertar algo','DES + AST'],['Mover-se com graça para ganhar a atenção de alguém','DES + VON'],['Examinar ou investigar alguém ou algo','AST + AST'],['Lembrar informação útil sobre algo','AST + AST'],['Obter informação de alguém durante uma conversa','AST + VON'],['Persuadir alguém com autoridade ou diplomacia','AST + VON'],['Trabalho duro, como erguer um portão ou empurrar uma estátua','VIG + VIG'],['Resistir a dor ou cansaço intensos','VIG + VON'],['Intimidar alguém com sua força','VIG + VON']];
+  return `<div class="grid">
+  <section class="card s6"><h2>Efeitos de status</h2>${tb(['Efeito','Descrição'],status)}<p class="note" style="margin-top:8px">Cada efeito reduz os dados indicados em um passo (d8 vira d6). O mínimo é d6.</p></section>
+  <section class="card s6"><h2>Pontos de Fábula</h2>${tb(['Efeito','Custo','Descrição'],pf)}
+    <h3>Ganhando Pontos de Fábula</h3><ul class="reflist">${ganhar.map(x=>`<li>${x}</li>`).join('')}</ul></section>
+  <section class="card s6"><h2>Evocando Traços e Laços</h2><ul class="reflist"><li><b>Traço</b> (Identidade, Origem ou Tema): depois de um teste, gaste 1 PF para rerrolar um ou os dois dados. Pode repetir, pagando 1 PF a cada nova rolagem. Não pode ser usado após uma falha crítica.</li><li><b>Laço:</b> gaste 1 PF para somar a <b>força</b> de um Laço ao resultado. Só uma vez por teste.</li><li>Só evoque quando fizer sentido na história, descrevendo a ação de acordo com o Traço ou Laço.</li></ul></section>
+  <section class="card s6"><h2>Sucesso e falha</h2><ul class="reflist"><li><b>Nunca subverta as consequências:</b> ninguém pode transformar a premissa de um teste em outra, mas os jogadores podem influenciar o resultado evocando Traços e Laços ou com um sucesso custoso.</li><li><b>Sucesso relevante:</b> quem vence um teste não precisa de mais testes para confirmar. Se o objetivo exige vários testes, use um relógio.</li><li><b>Nada de voltar atrás:</b> não dá para tentar de novo após uma falha, a menos que a situação mude muito.</li></ul></section>
+  <section class="card s6"><h2>Regras opcionais</h2><h3 style="margin-top:0">Evocar falhas</h3><p style="margin:0 0 8px">Uma vez por cena, antes de um teste, o jogador descreve como Laços ou Traços o impedem de ter sucesso. O teste vira uma falha automática com resultado e RA iguais a 0, e o personagem recebe 1 PF. Não vale em testes de Apoio nem junto de sucesso custoso.</p>
+    <h3>Sucesso custoso</h3><p style="margin:0">Ao falhar, o personagem pode propor um sucesso com custo, que o mestre ajusta e o jogador aceita ou recusa. O custo deve complicar a situação. Não vale após falha crítica. RA e resultado continuam os mesmos.</p></section>
+  <section class="card s6"><h2>Testes em grupo</h2><ol class="reflist">${['Os PJs escolhem um <b>líder</b>, que faz o teste final. Os demais são <b>apoiadores</b>.','Cada apoiador faz um teste de Apoio igual ao do líder, mas com ND fixo de <b>10</b>. Falhas e sucessos críticos em testes de Apoio não geram oportunidades.','Cada apoiador bem-sucedido dá <b>+1</b> ao teste do líder.','Se um apoiador bem-sucedido tem Laço com o líder, soma-se a <b>maior força</b> de Laço entre eles (só uma).','O líder faz o teste final, que pode gerar oportunidades.'].map(x=>`<li>${x}</li>`).join('')}</ol></section>
+  <section class="card s6"><h2>Experiência</h2><p style="margin:0">No fim de cada sessão, você ganha automaticamente <b>5 EXP</b>. Depois:</p><ul class="reflist"><li>Ganhe EXP igual aos Pontos de Ultima gastos pelos vilões.</li><li>Ganhe EXP igual aos Pontos de Fábula gastos pelo grupo ÷ número de PJs.</li></ul><p style="margin:8px 0 0">Com 10 ou mais EXP, você perde 10 EXP e sobe 1 nível.</p></section>
+  <section class="card s6"><h2>Oportunidades</h2><p class="note" style="margin:0 0 8px">Ao gastar uma oportunidade, escolha uma opção da lista ou crie uma reviravolta que se encaixe na cena. O mestre tem a palavra final.</p>${refOport()}</section>
+  <section class="card s6"><h2>Ações</h2>${refAcoes()}</section>
+  <section class="card s6"><h2>Testes sugeridos</h2>${tb(['Situação','Teste'],testes.map(r=>[r[0],`<b class="num">[${r[1]}]</b>`]),'tests')}
+    <p class="note" style="margin-top:8px">DES = Destreza · AST = Astúcia · VIG = Vigor · VON = Vontade</p></section>
   </div>`;
 }
 
@@ -704,7 +751,7 @@ function magicOut(){
     <p class="note">Bônus de nível aplicado aos tons: +${bonus}. Duração: ${esc_(tom.duracao||'até o fim do turno')}</p></div>`;
 }
 function esc_(s){return esc(s)}
-function cardHtml(h,i){return `<div class="item"><div class="top">${inp(`habilidades.${i}.nome`,{cls:'grow',ph:'Habilidade'})}${inp(`habilidades.${i}.fonte`,{cls:'grow',ph:'Origem (classe)'})}<span class="lbl">NP</span>${stepper(`habilidades.${i}.np`,0,20)}${tgl(`habilidades.${i}.combate`,'Combate')}<button class="btn ico sm bad" data-act="del" data-l="habilidades" data-i="${i}" aria-label="Remover">×</button></div>
+function cardHtml(h,i){return `<div class="item"><div class="top">${inp(`habilidades.${i}.nome`,{cls:'grow',ph:'Habilidade'})}${inp(`habilidades.${i}.fonte`,{cls:'grow',ph:'Origem (classe)'})}<span class="lbl">NP</span>${stepper(`habilidades.${i}.np`,0,20)}${tgl(`habilidades.${i}.combate`,'Conflito')}<button class="btn ico sm bad" data-act="del" data-l="habilidades" data-i="${i}" aria-label="Remover">×</button></div>
     <div style="margin-top:8px">${ta(`habilidades.${i}.desc`,{rows:3,ph:'Descrição'})}</div></div>`}
 function simNP(){
   const c=S.classes.find(c=>norm(c.nome)==='simbolista');
@@ -762,10 +809,10 @@ function tabClass(key){
 `:''}${skills}</div>`;
 }
 
-/* ---------- aba Combate ---------- */
+/* ---------- aba Conflito ---------- */
 function tabCombate(){
   const d=derive();
-  const dice=ATTRS.map(([k,nm,ab])=>{const bb=num(S.attrBonus[k])/2;return `<div class="at"><div class="nm">${ab}</div><div class="dierow"><button class="dbtn" data-act="dieStep" data-k="${k}" data-d="-1" aria-label="Diminuir dado de ${ab}" ${d.dice[k]<=6?'disabled':''}>−</button><div class="die num ${d.pen[k]>0?'low':''}">${dieName(d.dice[k])}</div><button class="dbtn" data-act="dieStep" data-k="${k}" data-d="1" aria-label="Aumentar dado de ${ab}" ${d.dice[k]>=12?'disabled':''}>+</button></div><div class="base">${bb?(bb>0?'+':'−')+Math.abs(bb)+(Math.abs(bb)===1?' passo':' passos'):'&nbsp;'}</div></div>`}).join('');
+  const dice=ATTRS.map(([k,nm,ab])=>{const bb=num(S.attrBonus[k])/2;return `<div class="at" title="${bb?(bb>0?'+':'−')+Math.abs(bb)+(Math.abs(bb)===1?' passo':' passos'):'Sem ajuste'}"><div class="nm">${ab}</div><div class="dierow"><button class="dbtn" data-act="dieStep" data-k="${k}" data-d="-1" aria-label="Diminuir dado de ${ab}" ${d.dice[k]<=6?'disabled':''}>−</button><div class="die num ${d.pen[k]>0?'low':''}">${dieName(d.dice[k])}</div><button class="dbtn" data-act="dieStep" data-k="${k}" data-d="1" aria-label="Aumentar dado de ${ab}" ${d.dice[k]>=12?'disabled':''}>+</button></div></div>`}).join('');
   const eq=S.armas.map((w,i)=>({w,i})).filter(x=>x.w.equip);
   const weapons=eq.map(({w,i})=>`<div class="item eq"><div class="top"><b class="grow">${esc(w.nome||'Arma')}</b></div>
     <div class="row"><span class="tag" title="${esc(precDice(w,d))}">Precisão ${esc(precText(w))}</span><span class="tag">Dano ${esc(w.dano)}</span><span class="tag">${esc(w.alcance)}</span></div>${w.notas?`<p class="note" style="margin:8px 0 0;white-space:pre-wrap">${esc(w.notas)}</p>`:''}</div>`).join('');
@@ -778,15 +825,9 @@ function tabCombate(){
 ;
   const habsCombate=S.habilidades.filter(h=>h.combate).map(h=>`<div class="item"><div class="top"><b class="grow">${esc(h.nome||'Habilidade')}</b>${h.fonte?`<span class="tag">${esc(h.fonte)}</span>`:''}<span class="tag">NP ${num(h.np)}</span></div><p style="margin:0;white-space:pre-wrap">${esc(h.desc)}</p></div>`).join('');
   return `<div class="grid">
+  <div class="fixbar"><div class="fstats"><div class="fchip"><small>DEFESA</small><b class="num">${d.def}</b></div><div class="fchip"><small>DEF. MAG.</small><b class="num">${d.defm}</b></div><div class="fchip"><small>INICIATIVA</small><b class="num">${d.init>0?'+':''}${d.init}</b></div><div class="fchip" title="O escudo equipado ocupa 1 mão"><small>MÃOS</small><b class="num" style="${d.maos>2?'color:var(--bad)':''}">${d.maos} / 2</b></div></div><div class="fdice">${dice}</div></div>
   <div class="s6 colstack">
   <section class="card"><h2>Resumo da Lyra</h2>
-    <div class="defs" style="margin-top:0">
-      <div class="dt"><span>DEFESA</span><b class="num">${d.def}</b></div>
-      <div class="dt"><span>DEF. MAG.</span><b class="num">${d.defm}</b></div>
-      <div class="dt"><span>INICIATIVA</span><b class="num">${d.init>0?'+':''}${d.init}</b></div>
-      <div class="dt" title="O escudo equipado ocupa 1 mão"><span>MÃOS</span><b class="num" style="${d.maos>2?'color:var(--bad)':''}">${d.maos} / 2</b></div>
-    </div>
-    <h3>Dados atuais</h3><div class="attrs">${dice}</div>
     <h3>Condições</h3>${condHtml()}
     <h3>Armas equipadas</h3>${weapons||'<p class="empty">Nenhuma arma equipada. Marque "Equipada" na aba Equipamento.</p>'}
     ${prot?`<p class="note">${esc(prot)}</p>`:''}
@@ -794,7 +835,9 @@ function tabCombate(){
   <section class="card"><h2>Trocar equipamento <span class="tag ${d.maos>2?'warn':'ok'}" style="font-size:14px">Mãos em uso ${d.maos} / 2</span></h2>
     <p class="note" style="margin:0 0 8px">Armas e escudo, os itens usados nas mãos. Toque para equipar ou guardar; a Defesa, a Def. Mag. e o contador de mãos se atualizam na hora. Armadura e acessório ficam na aba Equipamento.</p>${trocar||'<p class="empty">Nenhuma arma ou escudo cadastrado. Cadastre na aba Equipamento.</p>'}</section>
   </div>
-  <section class="card s6"><h2>Habilidades em combate</h2>${habsCombate||'<p class="empty">Nenhuma habilidade marcada. Use a caixa Combate no cartão da habilidade, na aba da classe.</p>'}</section></div>`;
+  <section class="card s6"><h2>Habilidades em conflito</h2>${habsCombate||'<p class="empty">Nenhuma habilidade marcada. Use a caixa Conflito no cartão da habilidade, na aba da classe.</p>'}</section>
+  <div class="confbar"><button class="btn" data-act="refOport">Oportunidades</button><button class="btn" data-act="refAcoes">Ações</button><button class="btn" data-act="refItens">Itens e PI</button></div>
+  </div>`;
 }
 
 
@@ -823,7 +866,7 @@ function showDock(r){
   dock.innerHTML=`<div>${html}</div>`;
 }
 /* ---------- modais ---------- */
-function showModal(html){const m=$('#modal');m.hidden=false;m.innerHTML=`<div class="mbox" role="dialog" aria-modal="true">${html}</div>`}
+function showModal(html,cls){const m=$('#modal');m.hidden=false;m.innerHTML=`<div class="mbox ${cls||''}" role="dialog" aria-modal="true">${html}</div>`}
 function closeModal(){$('#modal').hidden=true;$('#modal').innerHTML=''}
 function askConfirm(text,fn,okLabel){
   showModal(`<h2>Confirmar</h2><p>${esc(text)}</p><div class="mrow"><button class="btn" data-act="closeModal">Cancelar</button><button class="btn pri" data-act="okConfirm">${esc(okLabel||'Confirmar')}</button></div>`);
@@ -892,6 +935,9 @@ const ACT={
   resd:el=>applyDelta(RESKEY,num(el.dataset.d)),
   resapply:el=>{const v=Math.abs(num(($('#'+el.dataset.f)||{}).value));if(!v)return;applyDelta(RESKEY,v*num(el.dataset.s),true);closeModal()},
   closeModal:()=>closeModal(),
+  refOport:()=>showModal(`<div class="mtop"><h2>Oportunidades</h2><button class="btn sm" data-act="closeModal">Fechar</button></div><p class="note" style="margin:0 0 8px">Ao gastar uma oportunidade, escolha uma opção da lista ou crie uma reviravolta que se encaixe na cena. O mestre tem a palavra final.</p>${refOport()}`,'wide'),
+  refAcoes:()=>showModal(`<div class="mtop"><h2>Ações</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>${refAcoes()}`,'wide'),
+  refItens:()=>showModal(`<div class="mtop"><h2>Itens e Pontos de Inventário</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>${itensCard().replace(/^<section class="card"><h2>[^<]*<\/h2>/,'').replace(/<\/section>$/,'')}`,'wide'),
   okConfirm:()=>{const f=CONFIRM;CONFIRM=null;closeModal();if(f)f()},
   closeDock:()=>{$('#dock').hidden=true},
   pf:el=>{S.pf=Math.max(0,num(S.pf)+num(el.dataset.d));touch();renderHeader()},
@@ -972,7 +1018,7 @@ document.addEventListener('change',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#modal').hidden)closeModal()});
 window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(getTabs().some(t=>t[0]===h)&&h!==TAB){TAB=h;renderTabs();renderView()}});
-window.addEventListener('resize',()=>{document.documentElement.style.setProperty('--hh',$('#top').offsetHeight+'px')});
+window.addEventListener('resize',()=>{document.documentElement.style.setProperty('--hh',$('#top').offsetHeight+'px');document.documentElement.style.setProperty('--th',($('#tabs')?$('#tabs').offsetHeight:46)+'px')});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&dirty)flush()});
 
 function loadSymImg(file,x){
@@ -992,8 +1038,8 @@ function updateCalcs(){/* os valores derivados do corpo são recalculados na ren
   const defs=$$('.dt b');if(defs.length&&TAB==='ficha'){const d=derive();defs[0].textContent=d.def;defs[1].textContent=d.defm;defs[2].textContent=(d.init>0?'+':'')+d.init;defs[3].textContent=d.crise;}
 }
 function renderView(){
-  fixTab();const f=TAB.startsWith('cls-')?()=>tabClass(TAB):{ficha:tabFicha,equipamento:tabEquip,combate:tabCombate,acampamento:tabAcamp,diario:tabDiario}[TAB];
-  $('#view').innerHTML=f();$$('#view textarea').forEach(grow);
+  fixTab();const f=TAB.startsWith('cls-')?()=>tabClass(TAB):{ficha:tabFicha,equipamento:tabEquip,combate:tabCombate,acampamento:tabAcamp,referencias:tabRef,diario:tabDiario}[TAB];
+  $('#view').innerHTML=f();document.documentElement.style.setProperty('--hh',$('#top').offsetHeight+'px');document.documentElement.style.setProperty('--th',$('#tabs').offsetHeight+'px');$$('#view textarea').forEach(grow);
 }
 function render(){renderHeader();renderTabs();renderView()}
 
