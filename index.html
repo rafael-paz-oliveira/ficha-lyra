@@ -325,7 +325,7 @@ function tokKey(nome){const n=String(nome||'').toLowerCase().normalize('NFD').re
 function simImg(x){const v=x.img||('tok:'+tokKey(x.nome));return v.startsWith('tok:')?(TOKENS[v.slice(4)]||''):v}
 const simPic=(x,sz)=>{const u=simImg(x);return u?`<img class="tok" src="${u}" alt="" width="${sz}" height="${sz}">`:`<span class="tok none" style="width:${sz}px;height:${sz}px"></span>`};
 const SESSOES_SEED=[];
-const APP_VERSION='1.22.1',APP_BUILD='10/11/2026';
+const APP_VERSION='1.23.0',APP_BUILD='10/11/2026';
 const SIMBOLISMO_DESC='Sempre que adquirir este poder, aprenda dois símbolos (pp. 144-147).\nVocê pode ter até (NP + 1) símbolos ativos ao mesmo tempo; se criar mais símbolos além desse limite, antes deve escolher um de seus símbolos ativos para destruir.\nVocê pode fazer a ação Inventário e gastar 2 PI para criar um dos símbolos que aprendeu e escolher um: aplicar esse símbolo em si mesmo; ou aplicar esse símbolo num aliado que você consegue ver; ou fazer um ataque livre usando uma arma equipada. Esse ataque não causa dano, mas você aplica uma cópia do símbolo escolhido a cada inimigo que atingir (cada cópia conta como um símbolo individual para seu limite de (NP + 1) símbolos ativos).';
 function migrate(s){
   const v0=s.v||1;
@@ -658,11 +658,11 @@ function tabFicha(){
   const classes=S.classes.map((c,i)=>{
     const sum=c.poderes.reduce((a,p)=>a+num(p.np),0);
     const pw=c.poderes.map((p,j)=>`<div class="pwr">${inp(`classes.${i}.poderes.${j}.nome`,{cls:'name',ph:'Poder',list:`cat-${i}`})}<span class="lbl">NP</span>${stepper(`classes.${i}.poderes.${j}.np`,0,num(p.max)||20)}<span class="lbl">máx</span>${inp(`classes.${i}.poderes.${j}.max`,{num:1,cls:'n sm',al:'NP máximo'})}<button class="btn ico sm bad" data-act="del" data-l="classes.${i}.poderes" data-i="${j}" aria-label="Remover poder">×</button>${normK(p.nome)==='simbolismo'?pendTag(pendSimbolos(),'símbolo(s)'):normK(p.nome)==='magicanto'?pendTag(pendMagicanto(),'escolha(s)'):''}</div>`).join('');
-    return `<div class="cls"><div class="nameRow">${inp(`classes.${i}.nome`,{cls:'grow',ph:'Classe'})}<span class="lbl">Nível</span>${stepper(`classes.${i}.nivel`,0,10)}<button class="btn ico sm bad" data-act="del" data-l="classes" data-i="${i}" aria-label="Remover classe">×</button></div>
+    return `<div class="cls"><div class="nameRow">${classeSel(c,i)}<span class="lbl">Nível</span>${stepper(`classes.${i}.nivel`,0,10)}<button class="btn ico sm bad" data-act="del" data-l="classes" data-i="${i}" aria-label="Remover classe">×</button></div>
       <div style="margin-top:8px">${ta(`classes.${i}.ben`,{ph:'Benefícios gratuitos',cls:'sm'})}</div>
       <div class="cbon">${lab('Bônus de PV',inp(`classes.${i}.bpv`,{num:1,cls:'n'}))}${lab('Bônus de PM',inp(`classes.${i}.bpm`,{num:1,cls:'n'}))}${lab('Bônus de PI',inp(`classes.${i}.bpi`,{num:1,cls:'n'}))}</div>
       <datalist id="cat-${i}">${(CATALOGO[normK(c.nome)]||[]).filter(e=>!c.poderes.some(p=>normK(p.nome)===normK(e.nome))).map(e=>`<option value="${esc(e.nome)}"></option>`).join('')}</datalist>
-      <div class="pw">${pw}<div class="row"><button class="btn sm" data-act="add" data-l="classes.${i}.poderes">+ Poder</button><span class="tag ${sum===num(c.nivel)?'ok':'warn'}">NP somado ${sum} / nível ${num(c.nivel)}</span></div></div></div>`;
+      <div class="pw">${pw}<div class="row"><button class="btn sm" data-act="addPoder" data-i="${i}">+ Poder</button><span class="tag ${sum===num(c.nivel)?'ok':'warn'}">NP somado ${sum} / nível ${num(c.nivel)}</span></div></div></div>`;
   }).join('');
   return `<div class="grid">
   <section class="card s7"><h2>Identidade</h2>
@@ -1077,6 +1077,17 @@ function pendTag(p,what){
   const msg=p.dif>0?`Faltam ${p.dif} ${what}`:p.dif<0?`${-p.dif} ${what} a mais`:(p.falta||'Escolhas conferem');
   const cls=(p.dif!==0||p.falta)?'warn':'ok';
   return `<span class="tag ${cls}" title="Esperado pelo NP ${p.np}: ${p.esp}">${msg}</span>`}
+const CLASSES_INFO=[
+  {k:'atirador',nome:'Atirador',bpv:5,bpm:0,bpi:0,ben:'+5 PV, Marcial arma distância/escudo'},
+  {k:'virtuoso',nome:'Virtuoso',bpv:0,bpm:5,bpi:0,ben:'+5 PM'},
+  {k:'simbolista',nome:'Simbolista',bpv:0,bpm:0,bpi:2,ben:'+2 PI'}
+];
+const classeInfo=n=>CLASSES_INFO.find(c=>c.k===normK(n));
+function classeSel(c,i){
+  const info=classeInfo(c.nome),outra=!info&&(c.manual||!!c.nome);
+  const opts=`<option value="" ${!info&&!outra?'selected':''}>Escolher classe…</option>`+CLASSES_INFO.map(x=>`<option value="${x.k}" ${info&&info.k===x.k?'selected':''}>${esc(x.nome)}</option>`).join('')+`<option value="__x" ${outra?'selected':''}>Outra (digitar)</option>`;
+  return `<select class="f grow" data-cls="${i}" aria-label="Classe">${opts}</select>${outra?inp(`classes.${i}.nome`,{cls:'grow',ph:'Nome da classe'}):''}`;
+}
 function catEntrada(classe,poder){const l=CATALOGO[normK(classe)];return l?l.find(e=>normK(e.nome)===normK(poder)):null}
 // Chamado quando o nome de um poder é confirmado: completa o poder e cria a habilidade, se ainda não existir.
 function catAplicar(ci,pj){
@@ -1116,6 +1127,22 @@ const ACT={
   goSim:()=>{window.SIMOPEN=true;showModal(simModalHtml(),'wide')},
   closeSim:()=>{window.SIMOPEN=false;closeModal()},
   magModal:()=>{window.MAGMODAL=true;showModal(magModalHtml(),'wide')},
+  addPoder:el=>{
+    const ci=num(el.dataset.i),c=S.classes[ci];if(!c)return;
+    const cat=CATALOGO[normK(c.nome)];
+    if(!cat){c.poderes.push({nome:'',np:1,max:0});commit();return}
+    const rest=cat.map((x,k)=>({x,k})).filter(o=>!c.poderes.some(p=>normK(p.nome)===normK(o.x.nome)));
+    showModal(`<div class="mtop"><h2>Adicionar poder · ${esc(c.nome)}</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>
+      <p class="note" style="margin:0 0 8px">Escolha um poder da classe. A habilidade entra pronta na aba da classe.</p>
+      <div class="tompick">${rest.map(o=>`<button class="item tombtn" data-act="poderPick" data-i="${ci}" data-k="${o.k}"><b>${esc(o.x.nome)}</b><span>${esc(o.x.desc.length>150?o.x.desc.slice(0,147)+'…':o.x.desc)}${o.x.max?' · NP máx. '+o.x.max:''}</span></button>`).join('')||'<p class="empty">Você já tem todos os poderes da lista.</p>'}
+      <button class="item tombtn" data-act="poderPick" data-i="${ci}" data-k="-1"><b>Poder em branco</b><span>Para um poder que não está na lista.</span></button></div>`,'wide')},
+  poderPick:el=>{
+    const ci=num(el.dataset.i),k=num(el.dataset.k),c=S.classes[ci];if(!c)return;
+    const e=k>=0?(CATALOGO[normK(c.nome)]||[])[k]:null;
+    c.poderes.push({nome:e?e.nome:'',np:1,max:e?num(e.max):0});
+    let novo=false;if(e)novo=catAplicar(ci,c.poderes.length-1);
+    closeModal();commit();
+    if(novo)toastModal('Habilidade adicionada','A habilidade <b>'+esc(e.nome)+'</b> foi adicionada à aba '+esc(c.nome)+'.')},
   simPick:()=>{
     const tem=S.simbolos.map(x=>normK(x.nome)),rest=SIMBOLOS_CAT.map((x,i)=>({x,i})).filter(o=>!tem.includes(normK(o.x.nome)));
     showModal(`<div class="mtop"><h2>Adicionar símbolo</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>
@@ -1232,6 +1259,13 @@ document.addEventListener('change',e=>{
   if(el.id==='fileJson'){const f=el.files[0];if(f){f.text().then(importJson)}el.value='';return}
   if(el.id==='fileSym'){const f=el.files[0],x=S.simbolos[window.SYMIDX];if(f&&x)loadSymImg(f,x);el.value='';return}
   if(el.id==='fileImg'){const f=el.files[0];if(f)loadPortrait(f);el.value='';return}
+  if(el.dataset&&el.dataset.cls!==undefined){
+    const i=num(el.dataset.cls),c=S.classes[i];if(!c)return;const v=el.value;
+    if(v==='__x'){c.manual=true;if(classeInfo(c.nome))c.nome=''}
+    else if(!v){c.manual=false;c.nome=''}
+    else{const inf=classeInfo(v);c.manual=false;c.nome=inf.nome;if(!c.ben&&!num(c.bpv)&&!num(c.bpm)&&!num(c.bpi)){c.ben=inf.ben;c.bpv=inf.bpv;c.bpm=inf.bpm;c.bpi=inf.bpi}
+      else if(c.ben!==inf.ben||num(c.bpv)!==inf.bpv||num(c.bpm)!==inf.bpm||num(c.bpi)!==inf.bpi){askConfirm('Preencher os benefícios gratuitos e os bônus de PV, PM e PI de '+inf.nome+'? Os valores atuais serão substituídos.',()=>{c.ben=inf.ben;c.bpv=inf.bpv;c.bpm=inf.bpm;c.bpi=inf.bpi;commit()},'Preencher')}}
+    touch();render();return}
   if(!p) return;
   let v=el.type==='checkbox'?el.checked:el.value; if(el.dataset.t==='num') v=Number(v);
   setP(p,v);touch();
