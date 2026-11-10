@@ -1,0 +1,52 @@
+FICHA DA LYRA - APP COM ENVIO MANUAL PARA O GOOGLE DRIVE
+========================================================
+
+Arquivos desta pasta (envie TODOS juntos para a hospedagem)
+  index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png
+
+Como funciona
+  - A ficha salva sozinha, a cada alteração, no próprio aparelho.
+  - Para levar a ficha de um aparelho para o outro, use o menu (botão redondo do
+    canto superior direito):
+        "Enviar para o Drive"      salva o estado atual
+        "Abrir backup do Drive"    carrega o estado salvo
+  - A bolinha do botão do menu fica AMARELA quando há alterações ainda não enviadas.
+    Ela volta ao normal depois do envio.
+  - Se você abrir um backup mais antigo que a ficha do aparelho, a ficha pergunta antes
+    de substituir, para você não perder alterações por engano.
+
+Rotina sugerida
+  Fim da sessão no aparelho A: menu > Enviar para o Drive.
+  Início da sessão no aparelho B: menu > Abrir backup do Drive > escolher o arquivo.
+
+TABLET (Android)
+  Enviar: o Android mostra a lista de compartilhar. Escolha "Drive" e a pasta.
+  Abrir: o seletor de arquivos mostra o seu Drive. Escolha o arquivo da ficha.
+  O arquivo enviado do tablet termina em .txt, é normal. O app abre também esse formato.
+
+COMPUTADOR (Windows)
+  Enviar: baixa o arquivo ficha-....json para a pasta de downloads. Mova para a pasta
+  do Google Drive (ou configure o navegador para baixar direto nela).
+  Abrir: o seletor de arquivos abre normalmente; escolha o arquivo da pasta do Drive.
+  Dica: use sempre a mesma pasta e, se quiser, substitua o arquivo antigo.
+
+
+PASSO A PASSO PARA HOSPEDAR (GitHub Pages)
+  1. Crie uma conta em github.com (se ainda não tiver).
+  2. Crie um repositório novo, público, por exemplo "ficha-lyra".
+  3. Envie os 5 arquivos desta pasta (botão "Add file" > "Upload files").
+  4. Em Settings > Pages, escolha "Deploy from a branch", branch "main", pasta "/ (root)".
+  5. Aguarde um ou dois minutos. O endereço será parecido com:
+       https://SEU-USUARIO.github.io/ficha-lyra/
+  Alternativa: Netlify Drop (app.netlify.com/drop). Arraste a pasta e ele devolve um endereço.
+
+  Os seus DADOS ficam no aparelho e nos arquivos de backup, não na hospedagem.
+  Qualquer pessoa com o endereço consegue abrir a ficha em branco da Lyra, mas não vê seus dados.
+
+INSTALAR NO TABLET
+  No Chrome do tablet, abra o endereço, toque nos três pontinhos e em "Instalar app"
+  (ou "Adicionar à tela inicial"). A ficha passa a abrir em tela cheia, com ícone
+  próprio, e funciona sem internet.
+
+ATUALIZAR A FICHA
+  Quando eu mandar um index.html novo, substitua o arquivo no repositório. Seus dados não são afetados.
