@@ -326,7 +326,7 @@ function tokKey(nome){const n=String(nome||'').toLowerCase().normalize('NFD').re
 function simImg(x){const v=x.img||('tok:'+tokKey(x.nome));return v.startsWith('tok:')?(TOKENS[v.slice(4)]||''):v}
 const simPic=(x,sz)=>{const u=simImg(x);return u?`<img class="tok" src="${u}" alt="" width="${sz}" height="${sz}">`:`<span class="tok none" style="width:${sz}px;height:${sz}px"></span>`};
 const SESSOES_SEED=[];
-const APP_VERSION='1.28.1',APP_BUILD='10/11/2026';
+const APP_VERSION='1.28.2',APP_BUILD='10/11/2026';
 const SIMBOLISMO_DESC='Sempre que adquirir este poder, aprenda dois símbolos (pp. 144-147).\nVocê pode ter até (NP + 1) símbolos ativos ao mesmo tempo; se criar mais símbolos além desse limite, antes deve escolher um de seus símbolos ativos para destruir.\nVocê pode fazer a ação Inventário e gastar 2 PI para criar um dos símbolos que aprendeu e escolher um: aplicar esse símbolo em si mesmo; ou aplicar esse símbolo num aliado que você consegue ver; ou fazer um ataque livre usando uma arma equipada. Esse ataque não causa dano, mas você aplica uma cópia do símbolo escolhido a cada inimigo que atingir (cada cópia conta como um símbolo individual para seu limite de (NP + 1) símbolos ativos).';
 function migrate(s){
   const v0=s.v||1;
@@ -1008,7 +1008,7 @@ function tabDiario(){
   const fmtD=d=>{const m=String(d||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]+'/'+m[1]:''};
   return `<div class="grid"><section class="card diary"><h2>Diário <button class="btn sm pri" data-act="addDiario">+ Nova sessão</button></h2>
     ${es.map(({e,i})=>`<details class="ses item" data-i="${i}" ${sesAberta(e,i)?'open':''}><summary><span class="tag">Sessão ${String(i+1).padStart(2,'0')}</span><span class="sd">${esc(fmtD(e.data))}</span><b class="st">${esc(e.titulo||'Sem título')}</b></summary><div class="sbody">
-      <div class="top"><input class="f date" type="date" data-b="diario.${i}.data" data-t="txt" value="${esc(e.data)}" aria-label="Data">${inp(`diario.${i}.titulo`,{cls:'grow',ph:'Título'})}<button class="btn ico sm bad" data-act="del" data-l="diario" data-i="${i}" aria-label="Remover">×</button></div><div class="tarow"><span class="lbl">Resumo da sessão</span>${taTools(`diario.${i}.resumo`)}</div>${ta(`diario.${i}.resumo`,{rows:3,cls:'ind',ph:'Em poucas linhas: o que aconteceu, decisões, pendências...'})}<div class="tarow" style="margin-top:10px"><span class="lbl">Anotações</span>${taTools(`diario.${i}.texto`)}</div>${ta(`diario.${i}.texto`,{rows:5,cls:'ind',ph:'Detalhes, nomes, pistas, falas marcantes...'})}</div></details>`).join('')||'<p class="empty">Sem entradas.</p>'}</section></div>`;
+      <div class="top"><input class="f date" type="date" data-b="diario.${i}.data" data-t="txt" value="${esc(e.data)}" aria-label="Data">${inp(`diario.${i}.titulo`,{cls:'grow',ph:'Título'})}<button class="btn ico sm bad" data-act="del" data-l="diario" data-i="${i}" aria-label="Remover">×</button></div><div class="tarow"><span class="lbl">Anotações</span>${taTools(`diario.${i}.texto`)}</div>${ta(`diario.${i}.texto`,{rows:5,cls:'ind',ph:'Detalhes, nomes, pistas, falas marcantes...'})}</div></details>`).join('')||'<p class="empty">Sem entradas.</p>'}</section></div>`;
 }
 
 /* ---------- aba Rolagens ---------- */
