@@ -326,7 +326,7 @@ function tokKey(nome){const n=String(nome||'').toLowerCase().normalize('NFD').re
 function simImg(x){const v=x.img||('tok:'+tokKey(x.nome));return v.startsWith('tok:')?(TOKENS[v.slice(4)]||''):v}
 const simPic=(x,sz)=>{const u=simImg(x);return u?`<img class="tok" src="${u}" alt="" width="${sz}" height="${sz}">`:`<span class="tok none" style="width:${sz}px;height:${sz}px"></span>`};
 const SESSOES_SEED=[];
-const APP_VERSION='1.27.1',APP_BUILD='10/11/2026';
+const APP_VERSION='1.28.1',APP_BUILD='10/11/2026';
 const SIMBOLISMO_DESC='Sempre que adquirir este poder, aprenda dois símbolos (pp. 144-147).\nVocê pode ter até (NP + 1) símbolos ativos ao mesmo tempo; se criar mais símbolos além desse limite, antes deve escolher um de seus símbolos ativos para destruir.\nVocê pode fazer a ação Inventário e gastar 2 PI para criar um dos símbolos que aprendeu e escolher um: aplicar esse símbolo em si mesmo; ou aplicar esse símbolo num aliado que você consegue ver; ou fazer um ataque livre usando uma arma equipada. Esse ataque não causa dano, mas você aplica uma cópia do símbolo escolhido a cada inimigo que atingir (cada cópia conta como um símbolo individual para seu limite de (NP + 1) símbolos ativos).';
 function migrate(s){
   const v0=s.v||1;
@@ -615,15 +615,29 @@ function inp(path,o={}){
   return `<input class="f ${o.cls||''}" data-b="${path}" data-t="${t}" ${o.list?`list="${o.list}"`:''} type="${o.num?'number':'text'}" ${o.num?'inputmode="decimal" step="any"':''} value="${esc(v)}" placeholder="${esc(o.ph||'')}" aria-label="${esc(o.al||o.ph||path)}">`;
 }
 function ta(path,o={}){return `<textarea class="f ${o.cls||''}" data-b="${path}" data-t="txt" rows="${o.rows||2}" placeholder="${esc(o.ph||'')}" aria-label="${esc(o.al||o.ph||path)}">${esc(getP(path))}</textarea>`}
-function taTools(p){return `<span class="tatools"><button class="btn sm" data-act="taInd" data-p="${p}" data-d="-1" title="Diminuir recuo (Shift+Tab)" aria-label="Diminuir recuo">⇤</button><button class="btn sm" data-act="taInd" data-p="${p}" data-d="1" title="Aumentar recuo (Tab)" aria-label="Aumentar recuo">⇥</button><button class="btn sm" data-act="taNum" data-p="${p}" title="Recuar cada linha conforme a numeração (1), 1.1), 1.1.1)...)">Identar pela numeração</button></span>`}
+function taTools(p){return `<span class="tatools"><button class="btn sm" data-act="taInd" data-p="${p}" data-d="-1" title="Diminuir recuo (Shift+Tab)" aria-label="Diminuir recuo">⇤</button><button class="btn sm" data-act="taInd" data-p="${p}" data-d="1" title="Aumentar recuo (Tab): uma linha numerada 2) vira 1.1)" aria-label="Aumentar recuo">⇥</button><button class="btn sm" data-act="taNum" data-p="${p}" title="Recuar cada linha conforme a numeração (1), 1.1), 1.1.1)...)">Identar pela numeração</button></span>`}
 const IND='    ';
+const NUM_RE=/^([ \t]*)(\d+(?:\.\d+)*)\)([ \t]*)/;
+const nivelDe=ind=>Math.floor(ind.replace(/\t/g,IND).length/IND.length)+1;
+function proxNumero(prev,nivel){
+  if(!prev)return Array(nivel).fill(1);
+  if(nivel>prev.length)return prev.concat(Array(nivel-prev.length).fill(1));
+  const s=prev.slice(0,nivel);s[nivel-1]++;return s;
+}
+const segsDe=s=>s.split('.').map(Number);
+function ultimaNumerada(linhas){for(let i=linhas.length-1;i>=0;i--){const m=linhas[i].match(NUM_RE);if(m)return segsDe(m[2])}return null}
+function renumerar(linhas,anteriores){ // refaz o número das linhas numeradas conforme o recuo
+  let prev=ultimaNumerada(anteriores);
+  return linhas.map(l=>{const m=l.match(NUM_RE);if(!m)return l;const s=proxNumero(prev,nivelDe(m[1]));prev=s;return m[1]+s.join('.')+')'+(m[3]||' ')+l.slice(m[0].length)});
+}
 function taSalvar(el){setP(el.dataset.b,el.value);touch();grow(el)}
 function taIndentar(el,d){
   const v=el.value,a=el.selectionStart,b=el.selectionEnd;
   const ls=v.lastIndexOf('\n',a-1)+1;let le=v.indexOf('\n',b>a?b-1:b);if(le<0)le=v.length;
   const orig=v.slice(ls,le).split('\n');
   const nov=orig.map(l=>d>0?IND+l:l.replace(/^( {1,4}|\t)/,''));
-  const txt=nov.join('\n'),fl=nov[0].length-orig[0].length;
+  const nov2=renumerar(nov,ls>0?v.slice(0,ls-1).split('\n'):[]);
+  const txt=nov2.join('\n'),fl=nov2[0].length-orig[0].length;
   el.value=v.slice(0,ls)+txt+v.slice(le);
   el.setSelectionRange(Math.max(ls,a+fl),Math.max(ls,b+txt.length-(le-ls)));
   taSalvar(el);el.focus();
@@ -632,12 +646,27 @@ function taNumeracao(el){
   const linhas=el.value.split('\n').map(l=>{const m=l.match(/^\s*(\d+(?:\.\d+)*)\s*[).\-]/);return m?IND.repeat(m[1].split('.').length-1)+l.replace(/^\s+/,''):l});
   el.value=linhas.join('\n');taSalvar(el);
 }
+function taIniciar(el){if(!el.value.trim()){el.value='1) ';el.setSelectionRange(3,3);taSalvar(el);return true}return false}
+document.addEventListener('focusin',e=>{const el=e.target;if(el&&el.classList&&el.classList.contains('ind'))taIniciar(el)});
 document.addEventListener('keydown',e=>{
   const el=e.target;if(!el||!el.classList||!el.classList.contains('ind'))return;
-  if(e.key==='Tab'){e.preventDefault();taIndentar(el,e.shiftKey?-1:1);return}
+  if(e.key==='Tab'){e.preventDefault();if(!el.value.trim())taIniciar(el);taIndentar(el,e.shiftKey?-1:1);return}
+  const vazio=!el.value.trim();
+  if(vazio&&!e.ctrlKey&&!e.metaKey&&(e.key==='Enter'||e.key.length===1)){taIniciar(el);if(e.key==='Enter'){e.preventDefault();return}}
   if(e.key==='Enter'&&!e.shiftKey&&!e.ctrlKey&&!e.altKey&&!e.isComposing){
-    const v=el.value,a=el.selectionStart,ls=v.lastIndexOf('\n',a-1)+1,m=v.slice(ls,a).match(/^[ \t]+/);
-    if(m){e.preventDefault();el.setRangeText('\n'+m[0],a,el.selectionEnd,'end');taSalvar(el)}
+    const v=el.value,a=el.selectionStart,ls=v.lastIndexOf('\n',a-1)+1;let le=v.indexOf('\n',a);if(le<0)le=v.length;
+    const linha=v.slice(ls,le),mn=linha.match(NUM_RE);
+    if(mn&&a>=ls+mn[1].length+mn[2].length+1){
+      e.preventDefault();
+      if(!linha.slice(mn[0].length).trim()&&a===le){ // item vazio: Enter sobe um nível (no nível 1 não faz nada)
+        if(mn[2].includes('.'))taIndentar(el,-1);return}
+      const s=segsDe(mn[2]),prox=proxNumero(s,s.length);
+      el.setRangeText('\n'+mn[1]+prox.join('.')+') ',a,el.selectionEnd,'end');taSalvar(el);return}
+    // linha sem número: a próxima linha sempre ganha número (continua a última numerada acima)
+    e.preventDefault();
+    const ind=(linha.match(/^[ \t]*/)||[''])[0],ant=v.slice(0,a).split('\n');
+    const prox=proxNumero(ultimaNumerada(ant),nivelDe(ind));
+    el.setRangeText('\n'+ind+prox.join('.')+') ',a,el.selectionEnd,'end');taSalvar(el);
   }
 });
 function tgl(path,label,rerender){return `<label class="tgl"><input type="checkbox" data-b="${path}" data-t="bool" ${rerender?'data-r="1"':''} ${getP(path)?'checked':''}><span>${label}</span></label>`}
