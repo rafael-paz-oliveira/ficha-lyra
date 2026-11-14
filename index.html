@@ -98,6 +98,7 @@ textarea.f{resize:vertical;line-height:1.45;min-height:44px;overflow:hidden}
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .f.n{text-align:center;max-width:90px}
+.tarow{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:8px 0 4px}.tatools{display:flex;gap:6px;flex-wrap:wrap}.tatools .btn{min-height:34px;padding:0 10px;font-size:13px}textarea.ind{white-space:pre-wrap;tab-size:4}
 .f.sm{min-height:38px;padding:5px 8px;font-size:14px}
 select.f{appearance:auto}
 .btn{min-height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;font-weight:600;white-space:nowrap}
@@ -157,7 +158,7 @@ summary{cursor:pointer;color:var(--muted);min-height:32px;display:flex;align-ite
 
 .bond{display:grid;grid-template-columns:minmax(80px,.7fr) repeat(3,minmax(0,1.5fr)) 52px;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
 .bond:last-child{border:0}
-.simrow{padding:10px 0;border-bottom:1px solid var(--line)}.simrow:last-child{border:0}
+.simrow{padding:10px 0 10px 8px;border-bottom:1px solid var(--line);border-left:3px solid transparent}.simrow.act{border-left-color:var(--brass);background:rgba(214,168,76,.06)}.simname .btn.ico[disabled]{opacity:.3}.simrow:last-child{border:0}
 .simname{display:flex;gap:8px;align-items:center;margin-bottom:6px}.tok{border-radius:50%;object-fit:cover;vertical-align:middle;flex:none}.tok.none{display:inline-block;border:1px dashed var(--line);background:#0d1322;border-radius:50%}
 .tokbtn{background:none;border:0;padding:0;cursor:pointer;flex:none;line-height:0}
 .simbtns .pair button{display:flex;align-items:center;justify-content:center;gap:6px}
@@ -299,7 +300,7 @@ const STATUS={
 const TIPOS_ARTE=['Arcano','Elementalista','Entropista','Espiritualista','Infusão','Dança','Símbolo','Verso','Magissemente','Receita','Invocação','Dom Psíquico','Terioforma'];
 const RITUAIS=[['arcanismo','Arcanismo'],['entropismo','Entropismo'],['quimerismo','Quimerismo'],['ritualismo','Ritualismo'],['elementarismo','Elementarismo'],['espiritualismo','Espiritualismo']];
 
-function makeDefault(){return {"v":5,"t":0,"nome":"","genero":"","identidade":"","tema":"","origem":"","retrato":"","nivel":5,"xp":0,"zenites":0,"pf":3,"attr":{"des":8,"ast":8,"vig":8,"von":8},"attrBonus":{"des":0,"ast":0,"vig":0,"von":0},"bonus":{"pv":0,"pm":0,"pi":0,"def":0,"defm":0},"initMod":0,"pvDano":0,"pmGasto":0,"piGasto":0,"status":{"lento":false,"atordoado":false,"fraco":false,"abalado":false,"enfurecido":false,"envenenado":false},"lacos":[{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""}],"classes":[{"nome":"","nivel":5,"bpv":0,"bpm":0,"bpi":0,"ben":"","poderes":[]}],"armas":[],"escudo":{"nome":"","def":0,"defm":0,"init":0,"custo":0,"tipo":"","equip":false},"armadura":{"nome":"","def":0,"defFixa":false,"defm":0,"defmFixa":false,"init":0,"custo":0,"tipo":"","equip":false},"acessorio":{"nome":"","custo":0,"equip":false,"notas":""},"peculiaridade":"","heroicos":[],"acamp":[],"simbolos":[],"simControle":[],"mochila":"","obs":"","habilidades":[],"mc":{"volumes":[{"nome":"Fraco","custo":10,"alvos":""},{"nome":"Médio","custo":20,"alvos":""},{"nome":"Forte","custo":30,"alvos":""}],"escalas":[{"nome":"Chama","tipo":"fogo","cond":"abalado","attr":"Vigor","rec":"PV","on":false},{"nome":"Geada","tipo":"gelo","cond":"fraco","attr":"Vontade","rec":"PM","on":false},{"nome":"Ferro","tipo":"físico","cond":"lento","attr":"Vontade","rec":"PM","on":false},{"nome":"Resplendor","tipo":"luz","cond":"atordoado","attr":"Astúcia","rec":"PV","on":false},{"nome":"Sombra","tipo":"trevas","cond":"fraco","attr":"Destreza","rec":"PM","on":false},{"nome":"Pedra","tipo":"terra","cond":"atordoado","attr":"Vigor","rec":"PV","on":false},{"nome":"Trovão","tipo":"raio","cond":"abalado","attr":"Destreza","rec":"PV","on":false},{"nome":"Vento","tipo":"ar","cond":"lento","attr":"Astúcia","rec":"PM","on":false}],"tons":[{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""}],"sel":{"tom":0,"vol":0,"esc":3}},"artes":[],"rituais":{"arcanismo":false,"entropismo":false,"quimerismo":false,"ritualismo":false,"elementarismo":false,"espiritualismo":false},"relogios":[{"titulo":"","passos":0,"sessoes":6},{"titulo":"","passos":0,"sessoes":6},{"titulo":"","passos":0,"sessoes":6}],"diario":[{"data":"","titulo":"","texto":""}],"diarioSeed":true}}
+function makeDefault(){return {"v":5,"t":0,"nome":"","genero":"","identidade":"","tema":"","origem":"","retrato":"","nivel":5,"xp":0,"zenites":0,"pf":3,"attr":{"des":8,"ast":8,"vig":8,"von":8},"attrBonus":{"des":0,"ast":0,"vig":0,"von":0},"bonus":{"pv":0,"pm":0,"pi":0,"def":0,"defm":0},"initMod":0,"pvDano":0,"pmGasto":0,"piGasto":0,"status":{"lento":false,"atordoado":false,"fraco":false,"abalado":false,"enfurecido":false,"envenenado":false},"lacos":[{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""},{"nome":"","a":"","l":"","f":""}],"classes":[{"nome":"","nivel":5,"bpv":0,"bpm":0,"bpi":0,"ben":"","poderes":[]}],"armas":[],"escudo":{"nome":"","def":0,"defm":0,"init":0,"custo":0,"tipo":"","equip":false},"armadura":{"nome":"","def":0,"defFixa":false,"defm":0,"defmFixa":false,"init":0,"custo":0,"tipo":"","equip":false},"acessorio":{"nome":"","custo":0,"equip":false,"notas":""},"peculiaridade":"","heroicos":[],"acamp":[],"simbolos":[],"simControle":[],"mochila":"","mochilaItens":[],"obs":"","habilidades":[],"mc":{"volumes":[{"nome":"Fraco","custo":10,"alvos":""},{"nome":"Médio","custo":20,"alvos":""},{"nome":"Forte","custo":30,"alvos":""}],"escalas":[{"nome":"Chama","tipo":"fogo","cond":"abalado","attr":"Vigor","rec":"PV","on":false},{"nome":"Geada","tipo":"gelo","cond":"fraco","attr":"Vontade","rec":"PM","on":false},{"nome":"Ferro","tipo":"físico","cond":"lento","attr":"Vontade","rec":"PM","on":false},{"nome":"Resplendor","tipo":"luz","cond":"atordoado","attr":"Astúcia","rec":"PV","on":false},{"nome":"Sombra","tipo":"trevas","cond":"fraco","attr":"Destreza","rec":"PM","on":false},{"nome":"Pedra","tipo":"terra","cond":"atordoado","attr":"Vigor","rec":"PV","on":false},{"nome":"Trovão","tipo":"raio","cond":"abalado","attr":"Destreza","rec":"PV","on":false},{"nome":"Vento","tipo":"ar","cond":"lento","attr":"Astúcia","rec":"PM","on":false}],"tons":[{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""},{"nome":"","duracao":"","desc":""}],"sel":{"tom":0,"vol":0,"esc":3}},"artes":[],"rituais":{"arcanismo":false,"entropismo":false,"quimerismo":false,"ritualismo":false,"elementarismo":false,"espiritualismo":false},"relogios":[{"titulo":"","passos":0,"sessoes":6},{"titulo":"","passos":0,"sessoes":6},{"titulo":"","passos":0,"sessoes":6}],"diario":[{"data":"","titulo":"","texto":""}],"diarioSeed":true}}
 function makeBlank(){
   const d=makeDefault();
   Object.assign(d,{nome:'',genero:'',identidade:'',tema:'',origem:'',nivel:5,xp:0,zenites:0,pf:3,
@@ -308,14 +309,14 @@ function makeBlank(){
     classes:[{nome:'',nivel:5,bpv:0,bpm:0,bpi:0,ben:'',poderes:[]}],
     armas:[],escudo:{nome:'',def:0,defm:0,init:0,custo:0,tipo:'',equip:false},
     armadura:{nome:'',def:0,defFixa:false,defm:0,defmFixa:false,init:0,custo:0,tipo:'',equip:false},
-    peculiaridade:'',acamp:[],habilidades:[],simbolos:[],simControle:[],diario:[{data:today(),titulo:'',texto:''}]});
+    peculiaridade:'',mochila:'',mochilaItens:[],acamp:[],habilidades:[],simbolos:[],simControle:[],diario:[{data:today(),titulo:'',texto:''}]});
   d.mc.escalas.forEach(e=>e.on=false);
   d.mc.tons.forEach(t=>{t.nome='';t.duracao='';t.desc=''});
   d.mc.volumes.forEach(v=>{v.alvos=''});
   return d;
 }
 function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&(e.target.id==='resMinus'||e.target.id==='resPlus')){e.preventDefault();const b=e.target.parentElement.querySelector('[data-act="resapply"]');b&&b.click()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&(e.target.id==='resVal')){e.preventDefault();const b=e.target.parentElement.querySelector('[data-act="resapply"]');b&&b.click()}});
 document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('ses')){const ix=num(d.dataset.i),x=S.diario[ix];if(x&&sesAberta(x,ix)!==d.open){x.fechado=!d.open;touch()}if(d.open)d.querySelectorAll('textarea').forEach(grow);return}
   if(d&&d.classList&&d.classList.contains('wcfg')){window.WCFG_OPEN=window.WCFG_OPEN||{};window.WCFG_OPEN[d.dataset.i]=d.open;return}
   if(e.target&&e.target.id==='adjBox')window.ADJ_OPEN=e.target.open},true);
@@ -325,12 +326,18 @@ function tokKey(nome){const n=String(nome||'').toLowerCase().normalize('NFD').re
 function simImg(x){const v=x.img||('tok:'+tokKey(x.nome));return v.startsWith('tok:')?(TOKENS[v.slice(4)]||''):v}
 const simPic=(x,sz)=>{const u=simImg(x);return u?`<img class="tok" src="${u}" alt="" width="${sz}" height="${sz}">`:`<span class="tok none" style="width:${sz}px;height:${sz}px"></span>`};
 const SESSOES_SEED=[];
-const APP_VERSION='1.23.0',APP_BUILD='10/11/2026';
+const APP_VERSION='1.27.1',APP_BUILD='10/11/2026';
 const SIMBOLISMO_DESC='Sempre que adquirir este poder, aprenda dois símbolos (pp. 144-147).\nVocê pode ter até (NP + 1) símbolos ativos ao mesmo tempo; se criar mais símbolos além desse limite, antes deve escolher um de seus símbolos ativos para destruir.\nVocê pode fazer a ação Inventário e gastar 2 PI para criar um dos símbolos que aprendeu e escolher um: aplicar esse símbolo em si mesmo; ou aplicar esse símbolo num aliado que você consegue ver; ou fazer um ataque livre usando uma arma equipada. Esse ataque não causa dano, mas você aplica uma cópia do símbolo escolhido a cada inimigo que atingir (cada cópia conta como um símbolo individual para seu limite de (NP + 1) símbolos ativos).';
 function migrate(s){
   const v0=s.v||1;
   if(!Array.isArray(s.heroicos)){const x=String(s.heroicos||'').trim();s.heroicos=(x&&!/^(nenhum|—|-)$/i.test(x))?[{nome:'',desc:x}]:[]}
   s.habilidades=s.habilidades||[];s.simbolos=s.simbolos||[];
+  // mochila: o texto livre antigo vira uma lista de itens (uma linha = um item)
+  if(!Array.isArray(s.mochilaItens))s.mochilaItens=[];
+  if(String(s.mochila||'').trim()&&!s.mochilaItens.length){
+    s.mochilaItens=String(s.mochila).split(/\n|;/).map(x=>x.trim()).filter(Boolean).map(x=>({nome:x,qtd:1,notas:''}));
+    s.mochila='';
+  }
   // custo/alvos/duração saíram das habilidades: o que existia vira texto na descrição
   s.habilidades.forEach(h=>{
     const x=[];if(h.custo)x.push('Custo: '+h.custo);if(h.alvos)x.push('Alvos: '+h.alvos);if(h.duracao)x.push('Duração: '+h.duracao);
@@ -608,6 +615,31 @@ function inp(path,o={}){
   return `<input class="f ${o.cls||''}" data-b="${path}" data-t="${t}" ${o.list?`list="${o.list}"`:''} type="${o.num?'number':'text'}" ${o.num?'inputmode="decimal" step="any"':''} value="${esc(v)}" placeholder="${esc(o.ph||'')}" aria-label="${esc(o.al||o.ph||path)}">`;
 }
 function ta(path,o={}){return `<textarea class="f ${o.cls||''}" data-b="${path}" data-t="txt" rows="${o.rows||2}" placeholder="${esc(o.ph||'')}" aria-label="${esc(o.al||o.ph||path)}">${esc(getP(path))}</textarea>`}
+function taTools(p){return `<span class="tatools"><button class="btn sm" data-act="taInd" data-p="${p}" data-d="-1" title="Diminuir recuo (Shift+Tab)" aria-label="Diminuir recuo">⇤</button><button class="btn sm" data-act="taInd" data-p="${p}" data-d="1" title="Aumentar recuo (Tab)" aria-label="Aumentar recuo">⇥</button><button class="btn sm" data-act="taNum" data-p="${p}" title="Recuar cada linha conforme a numeração (1), 1.1), 1.1.1)...)">Identar pela numeração</button></span>`}
+const IND='    ';
+function taSalvar(el){setP(el.dataset.b,el.value);touch();grow(el)}
+function taIndentar(el,d){
+  const v=el.value,a=el.selectionStart,b=el.selectionEnd;
+  const ls=v.lastIndexOf('\n',a-1)+1;let le=v.indexOf('\n',b>a?b-1:b);if(le<0)le=v.length;
+  const orig=v.slice(ls,le).split('\n');
+  const nov=orig.map(l=>d>0?IND+l:l.replace(/^( {1,4}|\t)/,''));
+  const txt=nov.join('\n'),fl=nov[0].length-orig[0].length;
+  el.value=v.slice(0,ls)+txt+v.slice(le);
+  el.setSelectionRange(Math.max(ls,a+fl),Math.max(ls,b+txt.length-(le-ls)));
+  taSalvar(el);el.focus();
+}
+function taNumeracao(el){
+  const linhas=el.value.split('\n').map(l=>{const m=l.match(/^\s*(\d+(?:\.\d+)*)\s*[).\-]/);return m?IND.repeat(m[1].split('.').length-1)+l.replace(/^\s+/,''):l});
+  el.value=linhas.join('\n');taSalvar(el);
+}
+document.addEventListener('keydown',e=>{
+  const el=e.target;if(!el||!el.classList||!el.classList.contains('ind'))return;
+  if(e.key==='Tab'){e.preventDefault();taIndentar(el,e.shiftKey?-1:1);return}
+  if(e.key==='Enter'&&!e.shiftKey&&!e.ctrlKey&&!e.altKey&&!e.isComposing){
+    const v=el.value,a=el.selectionStart,ls=v.lastIndexOf('\n',a-1)+1,m=v.slice(ls,a).match(/^[ \t]+/);
+    if(m){e.preventDefault();el.setRangeText('\n'+m[0],a,el.selectionEnd,'end');taSalvar(el)}
+  }
+});
 function tgl(path,label,rerender){return `<label class="tgl"><input type="checkbox" data-b="${path}" data-t="bool" ${rerender?'data-r="1"':''} ${getP(path)?'checked':''}><span>${label}</span></label>`}
 function stepper(path,min,max){return `<div class="step"><button data-act="step" data-p="${path}" data-d="-1" data-min="${min}" data-max="${max}" aria-label="Diminuir">−</button><b>${esc(getP(path))}</b><button data-act="step" data-p="${path}" data-d="1" data-min="${min}" data-max="${max}" aria-label="Aumentar">+</button></div>`}
 function lab(t,inner){return `<label class="col"><span class="lbl">${t}</span>${inner}</label>`}
@@ -727,7 +759,8 @@ function tabEquip(){
     <div class="item ${S.acessorio.equip?'eq':''}"><div class="slot">Acessório</div><div class="top">${inp('acessorio.nome',{cls:'grow',ph:'Acessório'})}${tgl('acessorio.equip','Equipado',1)}</div>
       <div class="stats">${lab('Custo (z)',inp('acessorio.custo',{num:1}))}</div><div style="margin-top:8px">${ta('acessorio.notas',{ph:'Efeito',cls:'sm'})}</div></div>
   </section>
-  <section class="card"><h2>Mochila</h2>${ta('mochila',{rows:5,ph:'Itens carregados',cls:'sm'})}</section>
+  <section class="card"><h2>Mochila <span class="row"><span class="tag" title="Quantidade de itens diferentes · unidades somadas">${S.mochilaItens.length} ${S.mochilaItens.length===1?'item':'itens'}</span><button class="btn sm" data-act="add" data-l="mochilaItens">+ Item</button></span></h2>
+    ${S.mochilaItens.map((it,i)=>`<div class="item mochi"><div class="top">${inp(`mochilaItens.${i}.nome`,{cls:'grow',ph:'Item'})}${stepper(`mochilaItens.${i}.qtd`,1,99)}<button class="btn ico sm bad" data-act="del" data-l="mochilaItens" data-i="${i}" aria-label="Remover item">×</button></div>${inp(`mochilaItens.${i}.notas`,{cls:'sm',ph:'Notas (opcional)'})}</div>`).join('')||'<p class="empty">Mochila vazia. Toque em + Item.</p>'}</section>
   ${itensCard()}
   </div>`;
 }
@@ -846,18 +879,26 @@ function simCount(id){const ok=S.simbolos.some(x=>x.id===id);return ok?S.simCont
 function simAtivos(){return S.simbolos.reduce((a,x)=>a+simCount(x.id),0)}
 function simbolosHtml(){
   const lim=simNP()+1,at=simAtivos(),over=at>lim;
-  const items=S.simbolos.map((x,i)=>{const n=simCount(x.id);return `<div class="item ${n>0?'eq':''}"><div class="top"><button class="tokbtn" data-act="simImgPick" data-i="${i}" aria-label="Escolher imagem do símbolo" title="Imagem do símbolo">${simPic(x,56)}</button>${inp(`simbolos.${i}.nome`,{cls:'grow',ph:'Nome do símbolo'})}
-    <span class="tag ${n?'ok':''}">Em jogo: ${n}</span><button class="btn ico sm bad" data-act="del" data-l="simbolos" data-i="${i}" aria-label="Remover símbolo">×</button></div>
-    ${ta(`simbolos.${i}.desc`,{rows:3,ph:'Descrição do símbolo'})}</div>`}).join('');
-  return `<section class="card"><h2>Símbolos <span class="row"><span class="tag ${pendSimbolos().dif!==0?'warn':'ok'}" style="font-size:14px" title="Cada NP de Simbolismo ensina dois símbolos">Aprendidos ${pendSimbolos().tem} / ${pendSimbolos().esp}</span><span class="tag ${over?'warn':at?'ok':''}" style="font-size:14px" title="Limite = NP de Simbolismo + 1">Ativos ${at} / ${lim}</span><button class="btn sm" data-act="refSimbolos">Regras</button><button class="btn sm" data-act="simPick">+ Símbolo</button></span></h2>
+  const items=S.simbolos.map((x,i)=>{const n=simCount(x.id),mn=!!x.min;return `<div class="item ${n>0?'eq':''}"><div class="top"><button class="tokbtn" data-act="simImgPick" data-i="${i}" aria-label="Escolher imagem do símbolo" title="Imagem do símbolo">${simPic(x,mn?36:56)}</button>${inp(`simbolos.${i}.nome`,{cls:'grow',ph:'Nome do símbolo'})}
+    <span class="tag ${n?'ok':''}">Em jogo: ${n}</span><button class="btn ico sm" data-act="simMin" data-i="${i}" aria-label="${mn?'Expandir':'Recolher'} símbolo" title="${mn?'Expandir':'Recolher'}">${mn?'▸':'▾'}</button><button class="btn ico sm bad" data-act="del" data-l="simbolos" data-i="${i}" aria-label="Remover símbolo">×</button></div>
+    ${mn?'':ta(`simbolos.${i}.desc`,{rows:3,ph:'Descrição do símbolo'})}</div>`}).join('');
+  const todosMin=S.simbolos.length>0&&S.simbolos.every(x=>x.min);
+  const mnBox=!!cfgGet().simBoxMin;
+  return `<section class="card"><h2><span><button class="btn ico sm" data-act="simBox" aria-label="${mnBox?'Expandir':'Recolher'} caixa de símbolos" title="${mnBox?'Expandir':'Recolher'} a caixa" style="margin-right:8px">${mnBox?'▸':'▾'}</button>Símbolos</span> <span class="row"><span class="tag ${pendSimbolos().dif!==0?'warn':'ok'}" style="font-size:14px" title="Cada NP de Simbolismo ensina dois símbolos">Aprendidos ${pendSimbolos().tem} / ${pendSimbolos().esp}</span><span class="tag ${over?'warn':at?'ok':''}" style="font-size:14px" title="Limite = NP de Simbolismo + 1">Ativos ${at} / ${lim}</span><button class="btn sm" data-act="refSimbolos">Regras</button>${S.simbolos.length>1?`<button class="btn sm" data-act="simMinAll">${todosMin?'Expandir todos':'Recolher todos'}</button>`:''}<button class="btn sm" data-act="simPick">+ Símbolo</button></span></h2>${mnBox?'':`
     <p class="note" style="margin:0 0 10px">${(()=>{const q=pendSimbolos();return q.np?(q.dif>0?`<b style="color:var(--bad)">Faltam ${q.dif} símbolo(s) para escolher: cada NP de Simbolismo ensina dois.</b> `:q.dif<0?`<b style="color:var(--bad)">Há ${-q.dif} símbolo(s) a mais do que o NP permite (2 por NP).</b> `:''):''})()}Você pode ter até NP + 1 símbolos ativos (NP ${simNP()}). Criar e destruir símbolos é feito no controle abaixo: cada marca é uma criação e conta no limite. ${over?'<b style="color:var(--bad)">Acima do limite: destrua um símbolo.</b>':''}</p>
-    ${items||'<p class="empty">Nenhum símbolo aprendido.</p>'}</section>`;
+    ${items||'<p class="empty">Nenhum símbolo aprendido.</p>'}`}</section>`;
 }
+const simAtivaLinha=r=>(r.s||[]).length>0;
+function simOrdem(){const ix=S.simControle.map((r,i)=>i);return ix.filter(i=>simAtivaLinha(S.simControle[i])).concat(ix.filter(i=>!simAtivaLinha(S.simControle[i])))}
 function simControleHtml(){
   const cols=S.simbolos.map((x,i)=>({id:x.id,nome:x.nome||('Símbolo '+(i+1)),u:simImg(x)}));
-  const rows=S.simControle.map((r,i)=>`<div class="simrow"><div class="simname">${inp(`simControle.${i}.nome`,{ph:'Jogador ou alvo'})}<button class="btn ico sm bad" data-act="del" data-l="simControle" data-i="${i}" aria-label="Remover linha">×</button></div><div class="simbtns">${cols.map(c=>`<div class="pair"><button class="${(r.s||[]).includes(c.id)?'on':''}" data-act="simToggle" data-i="${i}" data-id="${esc(c.id)}" title="${esc(c.nome)}">${c.u?`<img class="tok" src="${c.u}" alt="" width="26" height="26">`:''}${esc(c.nome)}</button></div>`).join('')||'<span class="note">Cadastre um símbolo.</span>'}</div></div>`).join('');
+  const ord=simOrdem();
+  const rows=ord.map((i,pos)=>{const r=S.simControle[i],act=simAtivaLinha(r);
+    const prev=ord[pos-1],next=ord[pos+1];
+    const okUp=prev!==undefined&&simAtivaLinha(S.simControle[prev])===act,okDn=next!==undefined&&simAtivaLinha(S.simControle[next])===act;
+    return `<div class="simrow ${act?'act':''}"><div class="simname">${inp(`simControle.${i}.nome`,{ph:'Jogador ou alvo'})}<button class="btn ico sm" data-act="simMove" data-i="${i}" data-d="-1" aria-label="Subir" title="Subir" ${okUp?'':'disabled'}>↑</button><button class="btn ico sm" data-act="simMove" data-i="${i}" data-d="1" aria-label="Descer" title="Descer" ${okDn?'':'disabled'}>↓</button><button class="btn ico sm bad" data-act="del" data-l="simControle" data-i="${i}" aria-label="Remover linha">×</button></div><div class="simbtns">${cols.map(c=>`<div class="pair"><button class="${(r.s||[]).includes(c.id)?'on':''}" data-act="simToggle" data-i="${i}" data-id="${esc(c.id)}" title="${esc(c.nome)}">${c.u?`<img class="tok" src="${c.u}" alt="" width="26" height="26">`:''}${esc(c.nome)}</button></div>`).join('')||'<span class="note">Cadastre um símbolo.</span>'}</div></div>`}).join('');
   return `<section class="card"><h2>Controle de símbolos <button class="btn sm" data-act="add" data-l="simControle">+ Linha</button></h2>
-    <p class="note" style="margin:0 0 8px">Toque num símbolo para criá-lo naquele alvo (2 PI) e toque de novo para destruí-lo. Cada alvo pode ter apenas 1 símbolo. Cada marca conta no limite.</p><div>${rows||'<p class="empty">Nenhuma linha.</p>'}</div></section>`;
+    <p class="note" style="margin:0 0 8px">Toque num símbolo para criá-lo naquele alvo (2 PI) e toque de novo para destruí-lo. Cada alvo pode ter apenas 1 símbolo. Cada marca conta no limite. Alvos com símbolo ativo sobem para o topo; use ↑ e ↓ para ordenar os alvos dentro do grupo.</p><div>${rows||'<p class="empty">Nenhuma linha.</p>'}</div></section>`;
 }
 function orphanIdx(){const ns=S.classes.map(c=>norm(c.nome)).filter(Boolean);return S.habilidades.map((h,i)=>i).filter(i=>!ns.includes(norm(S.habilidades[i].fonte)))}
 function tabClass(key){
@@ -938,7 +979,7 @@ function tabDiario(){
   const fmtD=d=>{const m=String(d||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]+'/'+m[1]:''};
   return `<div class="grid"><section class="card diary"><h2>Diário <button class="btn sm pri" data-act="addDiario">+ Nova sessão</button></h2>
     ${es.map(({e,i})=>`<details class="ses item" data-i="${i}" ${sesAberta(e,i)?'open':''}><summary><span class="tag">Sessão ${String(i+1).padStart(2,'0')}</span><span class="sd">${esc(fmtD(e.data))}</span><b class="st">${esc(e.titulo||'Sem título')}</b></summary><div class="sbody">
-      <div class="top"><input class="f date" type="date" data-b="diario.${i}.data" data-t="txt" value="${esc(e.data)}" aria-label="Data">${inp(`diario.${i}.titulo`,{cls:'grow',ph:'Título'})}<button class="btn ico sm bad" data-act="del" data-l="diario" data-i="${i}" aria-label="Remover">×</button></div><div class="lbl" style="margin:8px 0 4px">Resumo da sessão</div>${ta(`diario.${i}.resumo`,{rows:3,ph:'Em poucas linhas: o que aconteceu, decisões, pendências...'})}<div class="lbl" style="margin:10px 0 4px">Anotações</div>${ta(`diario.${i}.texto`,{rows:5,ph:'Detalhes, nomes, pistas, falas marcantes...'})}</div></details>`).join('')||'<p class="empty">Sem entradas.</p>'}</section></div>`;
+      <div class="top"><input class="f date" type="date" data-b="diario.${i}.data" data-t="txt" value="${esc(e.data)}" aria-label="Data">${inp(`diario.${i}.titulo`,{cls:'grow',ph:'Título'})}<button class="btn ico sm bad" data-act="del" data-l="diario" data-i="${i}" aria-label="Remover">×</button></div><div class="tarow"><span class="lbl">Resumo da sessão</span>${taTools(`diario.${i}.resumo`)}</div>${ta(`diario.${i}.resumo`,{rows:3,cls:'ind',ph:'Em poucas linhas: o que aconteceu, decisões, pendências...'})}<div class="tarow" style="margin-top:10px"><span class="lbl">Anotações</span>${taTools(`diario.${i}.texto`)}</div>${ta(`diario.${i}.texto`,{rows:5,cls:'ind',ph:'Detalhes, nomes, pistas, falas marcantes...'})}</div></details>`).join('')||'<p class="empty">Sem entradas.</p>'}</section></div>`;
 }
 
 /* ---------- aba Rolagens ---------- */
@@ -976,12 +1017,30 @@ function resModal(k){
   showModal(`<h2>${R.n}</h2><div class="big num">${fmt(cur)}${max!=null?`<small style="font-size:18px;color:var(--muted)"> / ${max}</small>`:''}</div>
     ${k==='pv'?`<p class="note" style="text-align:center">Crise em ${d.crise} PV ou menos</p>`:''}
     <div class="resform">
-      <label class="rf bad"><span>${R.minus}</span><input class="f" id="resMinus" type="number" inputmode="numeric" min="0" placeholder="0" aria-label="${R.minus}"><button class="btn bad" data-act="resapply" data-s="-1" data-f="resMinus">${R.minus}</button></label>
-      <label class="rf ok"><span>${R.plus}</span><input class="f" id="resPlus" type="number" inputmode="numeric" min="0" placeholder="0" aria-label="${R.plus}"><button class="btn pri" data-act="resapply" data-s="1" data-f="resPlus">${R.plus}</button></label>
+      <label class="rf"><span>Valor</span><input class="f" id="resVal" type="text" inputmode="numeric" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="+5, -3 ou 5" aria-label="Valor com sinal"><button class="btn pri" data-act="resapply">Aplicar</button></label>
+      <p class="note" id="resPrev" style="margin:2px 0 0">Use <b>+</b> para somar, <b>−</b> para subtrair (${R.plus.toLowerCase()} / ${R.minus.toLowerCase()}). Sem sinal, o valor conta como positivo (soma). Aceita contas como +5-2.</p>
     </div>
     <div class="mrow"><button class="btn" data-act="closeModal">Fechar</button></div>`);
-  const f=$('#resMinus');if(f)setTimeout(()=>f.focus(),50);
+  const f=$('#resVal');if(f)setTimeout(()=>f.focus(),50);
 }
+function resAtual(k){const d=derive();return k==='zen'?num(S.zenites):d[k]}
+function resParse(k,txt){
+  const s=String(txt||'').replace(/\s+/g,'').replace(/[−–—]/g,'-');
+  if(!s)return null;
+  if(!/^[+-]?\d+([+-]\d+)*$/.test(s))return {erro:true};
+  const soma=(s.match(/[+-]?\d+/g)||[]).reduce((a,x)=>a+Number(x),0);
+  const cur=resAtual(k),d=derive(),mx=k==='zen'?Infinity:RES[k].max(d);
+  const bruto=cur+soma,alvo=clamp(bruto,0,mx);
+  return {cur,alvo,delta:alvo-cur,limitado:bruto!==alvo};
+}
+function resPreview(){
+  const el=$('#resPrev'),f=$('#resVal');if(!el||!f||!RESKEY)return;
+  const r=resParse(RESKEY,f.value);
+  if(!r){el.innerHTML=el.dataset.dica||el.innerHTML;return}
+  if(!el.dataset.dica)el.dataset.dica=el.innerHTML;
+  el.innerHTML=r.erro?'<span style="color:var(--bad)">Valor inválido. Exemplos: +5, -3, 5, +10-2.</span>':`Resultado: <b>${fmt(r.cur)}</b> → <b>${fmt(r.alvo)}</b> (${r.delta>=0?'+':'−'}${fmt(Math.abs(r.delta))})${r.limitado?' · limitado ao máximo/mínimo':''}`;
+}
+document.addEventListener('input',e=>{if(e.target&&e.target.id==='resVal')resPreview()});
 function applyDelta(k,delta,quiet){
   const d=derive();
   if(k==='zen'){S.zenites=Math.max(0,num(S.zenites)+delta)}
@@ -991,7 +1050,7 @@ function applyDelta(k,delta,quiet){
 function menuModal(){
   showModal(`<h2>Menu da ficha</h2><div class="menu">
     <p class="note"><span class="${dotCls()}"></span> ${esc(syncLabel())}${syncState==='local'&&window.claude?'. Abra o link pela sua conta do Claude para sincronizar.':''}</p>
-    <button class="btn" data-act="rest">Descansar (restaura PV, PM, PI e remove condições)</button>
+    <button class="btn" data-act="rest">Descansar (restaura PV e PM e remove condições)</button>
     <button class="btn" data-act="syncMenu">Sincronização e backup</button>
     <button class="btn" data-act="copyJson">Copiar backup para a área de transferência</button>
     <button class="btn" data-act="importPaste">Importar colando o texto</button>
@@ -1109,7 +1168,8 @@ const LISTS={
   artes:()=>({nome:'',tipo:'Arcano',custo:'',alvos:'',duracao:'',desc:''}),
   poderes:()=>({nome:'',np:1,max:0}),
   simbolos:()=>({id:newId(),nome:'',qtd:0,copias:0,desc:''}),
-  simControle:()=>({nome:'',s:[]})
+  simControle:()=>({nome:'',s:[]}),
+  mochilaItens:()=>({nome:'',qtd:1,notas:''})
 };
 function listKey(p){return p.split('.').pop()}
 function commit(){touch();render();if(window.SIMOPEN&&$('#simmodal'))showModal(simModalHtml(),'wide')}
@@ -1120,7 +1180,7 @@ const ACT={
   piq:el=>applyDelta('pi',num(el.dataset.d),true),
   pmq:el=>{const x=num(el.dataset.d);if(x<0&&derive().pm<10)return;applyDelta('pm',x,true)},
   resd:el=>applyDelta(RESKEY,num(el.dataset.d)),
-  resapply:el=>{const v=Math.abs(num(($('#'+el.dataset.f)||{}).value));if(!v)return;applyDelta(RESKEY,v*num(el.dataset.s),true);closeModal()},
+  resapply:()=>{const f=$('#resVal');if(!f)return;const r=resParse(RESKEY,f.value);if(!r||r.erro){resPreview();return}if(r.delta)applyDelta(RESKEY,r.delta,true);closeModal()},
   closeModal:()=>closeModal(),
   refOport:()=>showModal(`<div class="mtop"><h2>Oportunidades</h2><button class="btn sm" data-act="closeModal">Fechar</button></div><p class="note" style="margin:0 0 8px">Ao gastar uma oportunidade, escolha uma opção da lista ou crie uma reviravolta que se encaixe na cena. O mestre tem a palavra final.</p>${refOport()}`,'wide'),
   refAcoes:()=>showModal(`<div class="mtop"><h2>Ações</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>${refAcoes()}`,'wide'),
@@ -1171,6 +1231,13 @@ const ACT={
   bond:el=>{const b=S.lacos[num(el.dataset.i)],k=el.dataset.k,v=el.dataset.v;b[k]=b[k]===v?'':v;commit()},
   add:el=>{const p=el.dataset.l;const arr=getP(p);arr.push(LISTS[listKey(p)]());commit()},
   addHab:el=>{const h=LISTS.habilidades();h.fonte=el.dataset.f||'';S.habilidades.push(h);commit()},
+  simBox:()=>{cfgSet({simBoxMin:!cfgGet().simBoxMin});renderView()},
+  simMin:el=>{const x=S.simbolos[num(el.dataset.i)];if(!x)return;x.min=!x.min;commit()},
+  simMinAll:()=>{const v=!S.simbolos.every(x=>x.min);S.simbolos.forEach(x=>x.min=v);commit()},
+  simMove:el=>{
+    const i=num(el.dataset.i),d=num(el.dataset.d),ord=simOrdem(),pos=ord.indexOf(i),j=ord[pos+d];
+    if(j===undefined||simAtivaLinha(S.simControle[i])!==simAtivaLinha(S.simControle[j]))return;
+    const a=S.simControle;[a[i],a[j]]=[a[j],a[i]];commit()},
   simToggle:el=>{
     const r=S.simControle[num(el.dataset.i)],id=el.dataset.id,x=S.simbolos.find(x=>x.id===id);r.s=r.s||[];
     const k=r.s.indexOf(id),who=r.nome||'este alvo',nm=(x&&x.nome)||'símbolo';
@@ -1181,6 +1248,8 @@ const ACT={
     if(d.pi<custo){toastModal('PI insuficientes','Criar um símbolo custa 2 PI e você tem '+d.pi+'.');return}
     askConfirm('Criar '+nm+' em '+who+' por 2 PI?',()=>{r.s.push(id);S.piGasto=num(S.piGasto)+custo;commit()},'Criar');
   },
+  taInd:el=>{const ta=document.querySelector('textarea[data-b="'+el.dataset.p+'"]');if(ta)taIndentar(ta,num(el.dataset.d))},
+  taNum:el=>{const ta=document.querySelector('textarea[data-b="'+el.dataset.p+'"]');if(ta)taNumeracao(ta)},
   addDiario:()=>{S.diario.push({data:today(),titulo:'',resumo:'',texto:''});commit()},
   del:el=>{const p=el.dataset.l,i=num(el.dataset.i),arr=getP(p);askConfirm('Remover este item?',()=>{
     const mc=p.match(/^classes\.(\d+)\.poderes$/);let hab=null;
@@ -1209,7 +1278,7 @@ const ACT={
   sendDrive:()=>sendToDrive(),
   ghSend:()=>ghSend(),
   ghFetch:()=>ghFetch(),
-  rest:()=>askConfirm('Restaurar PV, PM e PI ao máximo e remover todas as condições?',()=>{S.pvDano=0;S.pmGasto=0;S.piGasto=0;Object.keys(S.status).forEach(k=>S.status[k]=false);commit()},'Descansar'),
+  rest:()=>askConfirm('Restaurar PV e PM ao máximo e remover todas as condições? Os PI não são restaurados.',()=>{S.pvDano=0;S.pmGasto=0;Object.keys(S.status).forEach(k=>S.status[k]=false);commit()},'Descansar'),
   export:async()=>{ if(true){await sendToDrive();return}
     const data=JSON.stringify(S,null,1),name='ficha-'+(S.nome||'personagem').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.json';
     try{const dl=window.claude&&claude.use?await claude.use('downloads'):null;
