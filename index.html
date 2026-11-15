@@ -250,6 +250,7 @@ table.t td{padding:3px 4px;border-top:1px solid var(--line)}
 .fdice{display:grid;grid-template-columns:repeat(4,minmax(92px,1fr));gap:6px;flex:2 1 440px}
 .fixbar .at{padding:4px 6px}.fixbar .at .nm{font-size:10px}.fixbar .at .die{font-size:26px;min-width:38px}.fixbar .dbtn{width:30px;height:30px;font-size:17px}.fixbar .dierow{gap:4px}
 .confbar{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}.confbar .btn{flex:1 1 160px;min-height:46px;font-size:15px}
+.tgl.massa{margin:10px 0 0}.mgh{margin:12px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.mbox.mag{max-width:1180px;width:96vw}.mggrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px;align-items:start}.mgopt span{white-space:pre-line}.mggrid.sm{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.mgopt{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;cursor:pointer;margin:0;color:var(--text);font:inherit;background:var(--card2,transparent);border:1px solid var(--line,#444);border-radius:10px;padding:8px 10px}.mgopt b{color:var(--brass2);font-size:15px}.mgopt b small{color:var(--muted);font-weight:400}.mgopt span{color:var(--muted);font-size:12.5px;line-height:1.35}.mgopt:hover{border-color:var(--brass)}.mgopt.on{border-color:var(--brass);box-shadow:inset 0 0 0 1px var(--brass);background:rgba(200,160,80,.12)}.mgvol .mgrow{cursor:pointer}.mgvol .mgrow:hover td{background:rgba(200,160,80,.08)}.mgvol .mgrow.on td{background:rgba(200,160,80,.16);box-shadow:inset 0 1px 0 var(--brass),inset 0 -1px 0 var(--brass)}
 .tompick{display:flex;flex-direction:column;gap:8px}.tombtn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;cursor:pointer;margin:0;width:100%;color:var(--text);font:inherit}.tombtn b{color:var(--brass2);font-size:16px}.tombtn span{color:var(--muted);font-size:13px}.tombtn:hover,.tombtn:active{border-color:var(--brass)}
 .mbox h3{margin:14px 0 6px;font-size:13px;letter-spacing:.06em;color:var(--brass2)}
 .mbox h2{font-size:17px;color:var(--brass2);margin-bottom:10px}
@@ -326,7 +327,7 @@ function tokKey(nome){const n=String(nome||'').toLowerCase().normalize('NFD').re
 function simImg(x){const v=x.img||('tok:'+tokKey(x.nome));return v.startsWith('tok:')?(TOKENS[v.slice(4)]||''):v}
 const simPic=(x,sz)=>{const u=simImg(x);return u?`<img class="tok" src="${u}" alt="" width="${sz}" height="${sz}">`:`<span class="tok none" style="width:${sz}px;height:${sz}px"></span>`};
 const SESSOES_SEED=[];
-const APP_VERSION='1.28.2',APP_BUILD='10/11/2026';
+const APP_VERSION='1.30.3',APP_BUILD='10/11/2026';
 const SIMBOLISMO_DESC='Sempre que adquirir este poder, aprenda dois símbolos (pp. 144-147).\nVocê pode ter até (NP + 1) símbolos ativos ao mesmo tempo; se criar mais símbolos além desse limite, antes deve escolher um de seus símbolos ativos para destruir.\nVocê pode fazer a ação Inventário e gastar 2 PI para criar um dos símbolos que aprendeu e escolher um: aplicar esse símbolo em si mesmo; ou aplicar esse símbolo num aliado que você consegue ver; ou fazer um ataque livre usando uma arma equipada. Esse ataque não causa dano, mas você aplica uma cópia do símbolo escolhido a cada inimigo que atingir (cada cópia conta como um símbolo individual para seu limite de (NP + 1) símbolos ativos).';
 function migrate(s){
   const v0=s.v||1;
@@ -850,11 +851,12 @@ function tomCalc(tom,esc){
   const un=/recupera/i.test(tom.desc)?esc.rec:/dano/i.test(tom.desc)?'de dano '+esc.tipo:'';
   return `<p class="npv">Cálculo: ${fixo?fixo+' + ':''}2 × d${die} (${2*die})${b?' + '+b+' (nível '+lv+')':''} = <b>${tot}</b> ${esc_(un)}</p>`;
 }
+let MAGMASS=false;
 function magicOut(){
   const m=S.mc,tom=m.tons[m.sel.tom],vol=m.volumes[m.sel.vol],esc=m.escalas[m.sel.esc];
   if(!tom||!tom.nome||!vol||!esc) return '<p class="empty">Escolha tom, volume e escala.</p>';
   const lv=num(S.nivel),bonus=lv>=40?20:lv>=20?10:0;
-  return `<div class="out"><div class="row" style="justify-content:space-between"><div><span class="lbl">Custo</span><div class="cost num">${num(vol.custo)} PM</div></div><button class="btn pri" data-act="cast">Cantar</button></div>
+  return `<div class="out"><div class="row" style="justify-content:space-between"><div><span class="lbl">Custo</span><div class="cost num">${MAGMASS?`<s style="opacity:.5;font-size:.7em">${num(vol.custo)}</s> ${Math.floor(num(vol.custo)/2)}`:num(vol.custo)} PM</div>${MAGMASS?'<small class="note">Massagem: custo pela metade</small>':''}</div><button class="btn pri" data-act="cast">Cantar</button></div>
     <p><b class="k">Alvos:</b> ${esc_(vol.alvos)}</p>
     <p><b class="k">Escala ${esc_(esc.nome)}:</b> ${esc_(esc.tipo)}, condição ${esc_(esc.cond)}, atributo ${esc_(esc.attr)}, recuperação ${esc_(esc.rec)}</p>
     <p><b class="k">${esc_(tom.nome)}:</b> ${esc_(substScale(tom.desc,esc))}</p>${tomCalc(tom,esc)}
@@ -867,18 +869,21 @@ function magicoConflito(){
   if(!mg&&!sm) return '';
   return `<div class="magcol">${mg?`<button class="btn pri magbtn" data-act="magModal">Magicanto</button><p class="note" style="margin:6px 0 0">Monte e cante um verso: tom, volume e escala.</p>`:''}${sm?`<button class="btn pri magbtn" style="margin-top:${mg?12:0}px" data-act="goSim">Controle de símbolos</button><p class="note" style="margin:6px 0 0">Criar e destruir símbolos em jogo.</p>`:''}</div>`;
 }
+function tomBreve(tom,esc){return substScale(String(tom.desc||''),esc)}
 function magModalHtml(){
   const m=S.mc;
   if(m.sel.tom>=m.tons.length)m.sel.tom=Math.max(0,m.tons.length-1);
-  const tonOpts=m.tons.map((t,i)=>t.nome?`<option value="${i}" ${m.sel.tom===i?'selected':''}>${esc(t.nome)}</option>`:'').join('');
-  const volOpts=m.volumes.map((v,i)=>`<option value="${i}" ${m.sel.vol===i?'selected':''}>${esc(v.nome)} (${num(v.custo)} PM)</option>`).join('');
-  const escOpts=m.escalas.map((e,i)=>e.on?`<option value="${i}" ${m.sel.esc===i?'selected':''}>${esc(e.nome)} · ${esc(e.tipo)}</option>`:'').join('');
+  const escSel=m.escalas[m.sel.esc]||m.escalas.find(e=>e.on)||m.escalas[0];
+  const pick=(k,i,on,inner,cls)=>`<button class="mgopt ${cls||''} ${on?'on':''}" data-act="magSel" data-k="${k}" data-i="${i}" aria-pressed="${on?'true':'false'}">${inner}</button>`;
+  const tons=m.tons.map((t,i)=>t.nome?pick('tom',i,m.sel.tom===i,`<b>${esc(t.nome)}</b><span>${esc(tomBreve(t,escSel))}</span>`):'').join('');
+  const escs=m.escalas.map((e,i)=>e.on?pick('esc',i,m.sel.esc===i,`<b>${esc(e.nome)} <small>${esc(e.tipo)}</small></b><span>${esc(e.cond)} · ${esc(e.attr)} · recupera ${esc(e.rec)}</span>`):'').join('');
+  const vols=m.volumes.map((v,i)=>`<tr class="mgrow ${m.sel.vol===i?'on':''}" data-act="magSel" data-k="vol" data-i="${i}" tabindex="0" role="button" aria-pressed="${m.sel.vol===i}"><td><b>${esc(v.nome)}</b></td><td class="num">${num(v.custo)} PM</td><td>${esc(v.alvos)}</td></tr>`).join('');
   return `<div class="mtop"><h2>Magicanto</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>
-    <div class="bld">
-      ${lab('Tom',`<select class="f" data-b="mc.sel.tom" data-t="num" data-r="1">${tonOpts}</select>`)}
-      ${lab('Volume',`<select class="f" data-b="mc.sel.vol" data-t="num" data-r="1">${volOpts}</select>`)}
-      ${lab('Escala',`<select class="f" data-b="mc.sel.esc" data-t="num" data-r="1">${escOpts}</select>`)}
-    </div>${magicOut()}`;
+    <label class="tgl massa"><input type="checkbox" data-act="magMass" ${MAGMASS?'checked':''}><span>Custo pela metade (Massagem) neste canto</span></label>
+    <h3 class="mgh">Tom</h3><div class="mggrid">${tons||'<p class="empty">Nenhum tom aprendido.</p>'}</div>
+    <h3 class="mgh">Escala</h3><div class="mggrid sm">${escs||'<p class="empty">Nenhuma escala marcada (aba Virtuoso).</p>'}</div>
+    <h3 class="mgh">Volume</h3><div class="scroll"><table class="t mgvol"><tr><th>Volume</th><th>PM</th><th>Alvos</th></tr>${vols}</table></div>
+    ${magicOut()}`;
 }
 function esc_(s){return esc(s)}
 /* ---------- NP nas habilidades: valor calculado sem esconder a fórmula ---------- */
@@ -1027,7 +1032,7 @@ function showDock(r){
 }
 /* ---------- modais ---------- */
 function showModal(html,cls){const m=$('#modal');m.hidden=false;m.innerHTML=`<div class="mbox ${cls||''}" role="dialog" aria-modal="true">${html}</div>`}
-function closeModal(){window.MAGMODAL=false;$('#modal').hidden=true;$('#modal').innerHTML='';if(window.SIMOPEN)showModal(simModalHtml(),'wide')}
+function closeModal(){window.MAGMODAL=false;MAGMASS=false;$('#modal').hidden=true;$('#modal').innerHTML='';if(window.SIMOPEN)showModal(simModalHtml(),'wide')}
 function askConfirm(text,fn,okLabel){
   showModal(`<h2>Confirmar</h2><p>${esc(text)}</p><div class="mrow"><button class="btn" data-act="closeModal">Cancelar</button><button class="btn pri" data-act="okConfirm">${esc(okLabel||'Confirmar')}</button></div>`);
   CONFIRM=fn;
@@ -1049,6 +1054,7 @@ function resModal(k){
       <label class="rf"><span>Valor</span><input class="f" id="resVal" type="text" inputmode="numeric" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="+5, -3 ou 5" aria-label="Valor com sinal"><button class="btn pri" data-act="resapply">Aplicar</button></label>
       <p class="note" id="resPrev" style="margin:2px 0 0">Use <b>+</b> para somar, <b>−</b> para subtrair (${R.plus.toLowerCase()} / ${R.minus.toLowerCase()}). Sem sinal, o valor conta como positivo (soma). Aceita contas como +5-2.</p>
     </div>
+    ${k==='pm'?'<label class="tgl massa"><input type="checkbox" id="resMass"><span>Custo pela metade (Massagem) neste gasto</span></label>':''}
     <div class="mrow"><button class="btn" data-act="closeModal">Fechar</button></div>`);
   const f=$('#resVal');if(f)setTimeout(()=>f.focus(),50);
 }
@@ -1057,19 +1063,22 @@ function resParse(k,txt){
   const s=String(txt||'').replace(/\s+/g,'').replace(/[−–—]/g,'-');
   if(!s)return null;
   if(!/^[+-]?\d+([+-]\d+)*$/.test(s))return {erro:true};
-  const soma=(s.match(/[+-]?\d+/g)||[]).reduce((a,x)=>a+Number(x),0);
+  let soma=(s.match(/[+-]?\d+/g)||[]).reduce((a,x)=>a+Number(x),0);
   const cur=resAtual(k),d=derive(),mx=k==='zen'?Infinity:RES[k].max(d);
+  let mass=false,orig=soma;
+  if(k==='pm'&&soma<0){const cb=$('#resMass');if(cb&&cb.checked){mass=true;soma=-Math.floor(-soma/2)}}
   const bruto=cur+soma,alvo=clamp(bruto,0,mx);
-  return {cur,alvo,delta:alvo-cur,limitado:bruto!==alvo};
+  return {cur,alvo,delta:alvo-cur,limitado:bruto!==alvo,mass,orig};
 }
 function resPreview(){
   const el=$('#resPrev'),f=$('#resVal');if(!el||!f||!RESKEY)return;
   const r=resParse(RESKEY,f.value);
   if(!r){el.innerHTML=el.dataset.dica||el.innerHTML;return}
   if(!el.dataset.dica)el.dataset.dica=el.innerHTML;
-  el.innerHTML=r.erro?'<span style="color:var(--bad)">Valor inválido. Exemplos: +5, -3, 5, +10-2.</span>':`Resultado: <b>${fmt(r.cur)}</b> → <b>${fmt(r.alvo)}</b> (${r.delta>=0?'+':'−'}${fmt(Math.abs(r.delta))})${r.limitado?' · limitado ao máximo/mínimo':''}`;
+  el.innerHTML=r.erro?'<span style="color:var(--bad)">Valor inválido. Exemplos: +5, -3, 5, +10-2.</span>':`Resultado: <b>${fmt(r.cur)}</b> → <b>${fmt(r.alvo)}</b> (${r.delta>=0?'+':'−'}${fmt(Math.abs(r.delta))})${r.mass?` · Massagem: ${fmt(-r.orig)} → ${fmt(-r.delta)} PM`:''}${r.limitado?' · limitado ao máximo/mínimo':''}`;
 }
 document.addEventListener('input',e=>{if(e.target&&e.target.id==='resVal')resPreview()});
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='resMass')resPreview()});
 function applyDelta(k,delta,quiet){
   const d=derive();
   if(k==='zen'){S.zenites=Math.max(0,num(S.zenites)+delta)}
@@ -1208,6 +1217,7 @@ const ACT={
   pvq:el=>applyDelta('pv',num(el.dataset.d),true),
   piq:el=>applyDelta('pi',num(el.dataset.d),true),
   pmq:el=>{const x=num(el.dataset.d);if(x<0&&derive().pm<10)return;applyDelta('pm',x,true)},
+  magMass:()=>{MAGMASS=!MAGMASS;showModal(magModalHtml(),'wide mag')},
   resd:el=>applyDelta(RESKEY,num(el.dataset.d)),
   resapply:()=>{const f=$('#resVal');if(!f)return;const r=resParse(RESKEY,f.value);if(!r||r.erro){resPreview();return}if(r.delta)applyDelta(RESKEY,r.delta,true);closeModal()},
   closeModal:()=>closeModal(),
@@ -1215,7 +1225,8 @@ const ACT={
   refAcoes:()=>showModal(`<div class="mtop"><h2>Ações</h2><button class="btn sm" data-act="closeModal">Fechar</button></div>${refAcoes()}`,'wide'),
   goSim:()=>{window.SIMOPEN=true;showModal(simModalHtml(),'wide')},
   closeSim:()=>{window.SIMOPEN=false;closeModal()},
-  magModal:()=>{window.MAGMODAL=true;showModal(magModalHtml(),'wide')},
+  magSel:el=>{const k=el.dataset.k,i=num(el.dataset.i);S.mc.sel[k]=i;touch();showModal(magModalHtml(),'wide mag');render()},
+  magModal:()=>{window.MAGMODAL=true;showModal(magModalHtml(),'wide mag')},
   addPoder:el=>{
     const ci=num(el.dataset.i),c=S.classes[ci];if(!c)return;
     const cat=CATALOGO[normK(c.nome)];
@@ -1297,9 +1308,9 @@ const ACT={
     if(livre>=0)tons[livre]={nome:e.nome,duracao:e.duracao,desc:e.desc};else tons.push({nome:e.nome,duracao:e.duracao,desc:e.desc});
     closeModal();commit()},
   cast:()=>{
-    const m=S.mc,tom=m.tons[m.sel.tom],vol=m.volumes[m.sel.vol],esc=m.escalas[m.sel.esc],d=derive(),c=num(vol.custo);
+    const m=S.mc,tom=m.tons[m.sel.tom],vol=m.volumes[m.sel.vol],esc=m.escalas[m.sel.esc],d=derive(),c0=num(vol.custo),mass=MAGMASS,c=mass?Math.floor(c0/2):c0;
     if(c>d.pm){toastModal('PM insuficientes','Você tem '+d.pm+' PM e este canto custa '+c+'.');return}
-    askConfirm('Cantar '+tom.nome+' ('+vol.nome+', escala '+esc.nome+') por '+c+' PM?',()=>{S.pmGasto=num(S.pmGasto)+c;touch();render();const r={label:'Canto: '+tom.nome+' · '+vol.nome+' · '+esc.nome,dice:[],text:'Gastou '+c+' PM. Restam '+(d.pm-c)+'.'};showDock(r);},'Cantar');
+    askConfirm('Cantar '+tom.nome+' ('+vol.nome+', escala '+esc.nome+') por '+(mass?c0+' → '+c+' PM (Massagem)':c+' PM')+'?',()=>{S.pmGasto=num(S.pmGasto)+c;MAGMASS=false;touch();render();const r={label:'Canto: '+tom.nome+' · '+vol.nome+' · '+esc.nome,dice:[],text:'Gastou '+c+' PM. Restam '+(d.pm-c)+'.'};showDock(r);},'Cantar');
   },
   equipToggle:el=>{setP(el.dataset.p,!getP(el.dataset.p));commit()},
   menu:()=>menuModal(),
@@ -1369,7 +1380,7 @@ document.addEventListener('change',e=>{
   setP(p,v);touch();
   const mp=p.match(/^classes\.(\d+)\.poderes\.(\d+)\.nome$/);
   if(mp){const novo=catAplicar(num(mp[1]),num(mp[2]));render();if(novo){const c=S.classes[num(mp[1])];toastModal('Habilidade adicionada','A habilidade <b>'+esc(c.poderes[num(mp[2])].nome)+'</b> foi adicionada à aba '+esc(c.nome)+'.')}return}
-  if(window.MAGMODAL&&p.startsWith('mc.sel.')){showModal(magModalHtml(),'wide');render();return}
+  if(window.MAGMODAL&&p.startsWith('mc.sel.')){showModal(magModalHtml(),'wide mag');render();return}
   if(el.dataset.r){render()}else{renderHeader();updateCalcs()}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#modal').hidden)closeModal()});
